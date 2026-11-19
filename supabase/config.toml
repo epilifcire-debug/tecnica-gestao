@@ -1,0 +1,5 @@
+# Configuração mínima para o Supabase CLI (supabase link / db push / functions deploy)
+project_id = "tecnica-gestao"
+
+[functions.admin-users]
+verify_jwt = true

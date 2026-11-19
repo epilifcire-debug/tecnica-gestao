@@ -1,0 +1,65 @@
+@import "@fontsource-variable/inter";
+@import "@fontsource/montserrat/600.css";
+@import "@fontsource/montserrat/700.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Identidade Técnica Engenharia: grafite profundo + branco + dourado (marca) */
+:root {
+  --bg: 10 13 18;
+  --surface: 17 22 29;
+  --surface-2: 23 29 38;
+  --line: 36 44 56;
+  --ink: 236 239 243;
+  --muted: 138 148 163;
+  --gold: 214 172 66;
+  --gold-soft: 240 207 120;
+  --ok: 34 197 94;
+  --bad: 239 68 68;
+  --warn: 249 115 22;
+  --info: 59 130 246;
+  --violet: 139 92 246;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: dark;
+}
+
+@layer base {
+  html { -webkit-tap-highlight-color: transparent; }
+  body {
+    font-feature-settings: "cv11", "ss01";
+    background:
+      radial-gradient(1200px 600px at 100% -10%, rgb(var(--gold) / 0.06), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgb(var(--info) / 0.05), transparent 60%),
+      rgb(var(--bg));
+    min-height: 100dvh;
+  }
+  h1, h2, h3 { font-family: theme("fontFamily.display"); letter-spacing: -0.01em; }
+  :focus-visible { outline: 2px solid rgb(var(--gold)); outline-offset: 2px; border-radius: 8px; }
+  ::selection { background: rgb(var(--gold) / 0.35); }
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert(0.8); cursor: pointer; }
+  * { scrollbar-width: thin; scrollbar-color: rgb(var(--line)) transparent; }
+}
+
+@layer components {
+  .card { @apply rounded-2xl border border-line/70 bg-surface/90 shadow-card backdrop-blur-sm; }
+  .card-pad { @apply p-4 sm:p-5; }
+  .eyebrow { @apply text-[11px] font-semibold uppercase tracking-[0.22em] text-gold; }
+  .input {
+    @apply h-11 w-full rounded-xl border border-line bg-bg/60 px-3.5 text-[15px] text-ink placeholder:text-muted/60
+           transition focus:border-gold/70 focus:outline-none focus:ring-2 focus:ring-gold/20 disabled:opacity-60;
+  }
+  .input-error { @apply border-bad/70 focus:border-bad focus:ring-bad/20; }
+  .label { @apply mb-1.5 block text-[13px] font-medium text-ink/85; }
+  .chip { @apply inline-flex h-9 items-center gap-2 rounded-xl border border-line bg-surface px-3 text-sm text-ink/90 transition hover:border-gold/50; }
+  .chip-active { @apply border-gold/70 bg-gold/15 text-gold-soft; }
+  .table-head { @apply text-left text-[12px] font-medium uppercase tracking-wider text-muted; }
+  .safe-bottom { padding-bottom: calc(var(--safe-bottom) + 0.5rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
