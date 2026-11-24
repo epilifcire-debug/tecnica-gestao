@@ -32,11 +32,11 @@ export function buildSeed(): Record<string, Row[]> {
   ].map((c, i) => ({ ...c, created_at: ts(-200 + i * 20) }));
 
   const profiles = [
-    { id: DEMO_USERS.master, nome: "Eric Filipe", email: "eric@tecnica.eng.br", telefone: "79999990000", cargo: "Diretor", ativo: true, cliente_id: null },
-    { id: DEMO_USERS.colaborador, nome: "Eng. Carlos Mendes", email: "carlos@tecnica.eng.br", telefone: "79999991111", cargo: "Engenheiro Civil", ativo: true, cliente_id: null },
-    { id: DEMO_USERS.cliente, nome: "João da Silva", email: "joao.silva@email.com", telefone: "79999887766", cargo: null, ativo: true, cliente_id: uid(101) },
-    { id: DEMO_USERS.administrador, nome: "Ana Paula Rocha", email: "ana@tecnica.eng.br", telefone: "79999992222", cargo: "Administrativo", ativo: true, cliente_id: null },
-    { id: uid(5), nome: "Ricardo Lima", email: "ricardo@tecnica.eng.br", telefone: "79999993333", cargo: "Mestre de obras", ativo: false, cliente_id: null },
+    { id: DEMO_USERS.master, username: "eric", nome: "Eric Filipe", email: "eric@tecnica.eng.br", telefone: "79999990000", cargo: "Diretor", ativo: true, cliente_id: null },
+    { id: DEMO_USERS.colaborador, username: "carlos", nome: "Eng. Carlos Mendes", email: "carlos@tecnica.eng.br", telefone: "79999991111", cargo: "Engenheiro Civil", ativo: true, cliente_id: null },
+    { id: DEMO_USERS.cliente, username: "joao.silva", nome: "João da Silva", email: "joao.silva@email.com", telefone: "79999887766", cargo: null, ativo: true, cliente_id: uid(101) },
+    { id: DEMO_USERS.administrador, username: "ana", nome: "Ana Paula Rocha", email: "ana@tecnica.eng.br", telefone: "79999992222", cargo: "Administrativo", ativo: true, cliente_id: null },
+    { id: uid(5), username: "ricardo", nome: "Ricardo Lima", email: null, telefone: "79999993333", cargo: "Mestre de obras", ativo: false, cliente_id: null },
   ].map((p, i) => ({ ...p, avatar_url: null, created_at: ts(-300 + i * 30) }));
 
   const user_roles = [

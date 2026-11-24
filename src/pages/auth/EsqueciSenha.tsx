@@ -40,7 +40,7 @@ export default function EsqueciSenha() {
       ) : (
         <>
           <h1 className="text-2xl font-bold">Esqueci minha senha</h1>
-          <p className="mt-1 text-sm text-muted">Informe seu e-mail para receber o link de redefinição.</p>
+          <p className="mt-1 text-sm text-muted">Informe seu e-mail para receber o link de redefinição. Se você entra só com nome de usuário (sem e-mail), peça uma nova senha ao administrador.</p>
           <form onSubmit={submit} noValidate className="mt-6 space-y-4">
             <Field label="E-mail" htmlFor="email" error={err} required>
               <Input id="email" type="email" inputMode="email" autoComplete="email" placeholder="seu@email.com" value={email} invalid={!!err}

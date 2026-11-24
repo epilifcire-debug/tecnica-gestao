@@ -9,7 +9,7 @@ import { RELATIONS } from "./schema";
 import { buildSeed, DEMO_USERS } from "./demoSeed";
 import { addDays, isoDate, today } from "@/lib/format";
 
-const KEY = "tecnica-demo-db-v5";
+const KEY = "tecnica-demo-db-v6";
 const SESSION_KEY = "tecnica-demo-session";
 type DB = Record<string, Row[]>;
 
@@ -372,10 +372,11 @@ export const demoApi: Api = {
     const master = me().role === "admin_master";
     const adminRoles = ["admin_master", "administrador"];
     if (body.action === "create") {
-      if (db.profiles.some((p) => p.email.toLowerCase() === String(body.email).toLowerCase())) throw new Error("Já existe um usuário com este e-mail.");
+      if (body.email && db.profiles.some((p) => (p.email ?? "").toLowerCase() === String(body.email).toLowerCase())) throw new Error("Já existe um usuário com este e-mail.");
+      if (db.profiles.some((p) => p.username === String(body.username).toLowerCase())) throw new Error("Este nome de usuário já está em uso.");
       if (adminRoles.includes(body.role) && !master) throw perm("Somente o Administrador Master pode criar perfis administrativos.");
       const id = uuid();
-      db.profiles.push({ id, nome: body.nome, email: String(body.email).toLowerCase(), telefone: String(body.telefone ?? "").replace(/\D/g, "") || null, cargo: body.cargo || null, ativo: body.ativo !== false, cliente_id: body.role === "cliente" ? body.cliente_id : null, avatar_url: null, created_at: new Date().toISOString() });
+      db.profiles.push({ id, nome: body.nome, username: String(body.username).toLowerCase(), email: body.email ? String(body.email).toLowerCase() : null, telefone: String(body.telefone ?? "").replace(/\D/g, "") || null, cargo: body.cargo || null, ativo: body.ativo !== false, cliente_id: body.role === "cliente" ? body.cliente_id : null, avatar_url: null, created_at: new Date().toISOString() });
       db.user_roles.push({ user_id: id, role: body.role });
       save();
       return { ok: true, user_id: id, convite_enviado: !body.senha_provisoria } as any;
@@ -391,7 +392,7 @@ export const demoApi: Api = {
         db.user_roles.find((r) => r.user_id === body.user_id)!.role = body.role;
       }
       const p = db.profiles.find((x) => x.id === body.user_id)!;
-      Object.assign(p, { nome: body.nome ?? p.nome, telefone: body.telefone !== undefined ? String(body.telefone).replace(/\D/g, "") || null : p.telefone, cargo: body.cargo ?? p.cargo, cliente_id: (body.role ?? targetRole) === "cliente" ? body.cliente_id ?? p.cliente_id : null });
+      Object.assign(p, { username: body.username ?? p.username, nome: body.nome ?? p.nome, telefone: body.telefone !== undefined ? String(body.telefone).replace(/\D/g, "") || null : p.telefone, cargo: body.cargo ?? p.cargo, cliente_id: (body.role ?? targetRole) === "cliente" ? body.cliente_id ?? p.cliente_id : null });
       save();
       return { ok: true } as any;
     }
@@ -427,7 +428,8 @@ export const demoApi: Api = {
   onAuthChange(cb) { listeners.add(cb); return () => listeners.delete(cb); },
   async signIn(email) {
     await wait(500);
-    const p = db.profiles.find((x) => x.email.toLowerCase() === email.trim().toLowerCase());
+    const l = email.trim().toLowerCase();
+    const p = db.profiles.find((x) => (x.email ?? "").toLowerCase() === l || x.username === l);
     if (!p) throw new Error("Invalid login credentials");
     if (!p.ativo) throw new Error("User is banned");
     store.set(SESSION_KEY, p.id);
@@ -450,7 +452,7 @@ export const demoApi: Api = {
 };
 
 export const DEMO_LOGINS = [
-  { label: "Administrador Master", email: "eric@tecnica.eng.br", id: DEMO_USERS.master },
-  { label: "Colaborador (engenheiro)", email: "carlos@tecnica.eng.br", id: DEMO_USERS.colaborador },
+  { label: "Administrador Master", email: "eric", id: DEMO_USERS.master },
+  { label: "Colaborador (engenheiro)", email: "carlos", id: DEMO_USERS.colaborador },
   { label: "Cliente (Portal)", email: "joao.silva@email.com", id: DEMO_USERS.cliente },
 ];

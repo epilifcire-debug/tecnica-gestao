@@ -37,6 +37,8 @@ const json = (req: Request, status: number, body: unknown) =>
   new Response(JSON.stringify(body), { status, headers: { ...cors(req), "Content-Type": "application/json" } });
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const USER_RE = /^[a-z0-9._-]{3,30}$/;
+const TECH_DOMAIN = "usuarios.tecnica.local"; // e-mail técnico para quem não tem e-mail
 const onlyDigits = (v: unknown) => (typeof v === "string" ? v.replace(/\D/g, "") : "");
 const str = (v: unknown, max = 160) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
@@ -85,7 +87,8 @@ Deno.serve(async (req) => {
     // =================================================================
     if (action === "create") {
       const nome = str(body.nome);
-      const email = str(body.email, 254).toLowerCase();
+      const username = str(body.username, 30).toLowerCase();
+      const emailInformado = str(body.email, 254).toLowerCase();
       const telefone = onlyDigits(body.telefone);
       const cargo = str(body.cargo, 80) || null;
       const role = assertRole(body.role ?? "colaborador");
@@ -93,20 +96,29 @@ Deno.serve(async (req) => {
       const senha = typeof body.senha_provisoria === "string" ? body.senha_provisoria : "";
 
       if (nome.length < 3) throw new HttpError(400, "Informe o nome completo.");
-      if (!EMAIL_RE.test(email)) throw new HttpError(400, "Informe um e-mail válido.");
+      if (!USER_RE.test(username)) throw new HttpError(400, "Usuário inválido: use 3 a 30 letras minúsculas, números, ponto, hífen ou _.");
+      if (emailInformado && !EMAIL_RE.test(emailInformado)) throw new HttpError(400, "Informe um e-mail válido ou deixe em branco.");
+      if (emailInformado.endsWith("@" + TECH_DOMAIN)) throw new HttpError(400, "E-mail inválido.");
       if (telefone && (telefone.length < 10 || telefone.length > 11)) throw new HttpError(400, "Telefone inválido. Use (99) 99999-9999.");
       if (!canManage(role)) throw new HttpError(403, "Somente o Administrador Master pode criar perfis administrativos.");
       if (role === "cliente" && !clienteId) throw new HttpError(400, "Selecione o cliente vinculado a este acesso.");
+      if (!emailInformado && !senha) throw new HttpError(400, "Sem e-mail, informe uma senha provisória para o primeiro acesso.");
       if (senha && senha.length < 8) throw new HttpError(400, "A senha provisória deve ter ao menos 8 caracteres.");
 
-      const { data: dup } = await admin.from("profiles").select("id").ilike("email", email).maybeSingle();
-      if (dup) throw new HttpError(409, "Já existe um usuário com este e-mail.");
+      const { data: dupU } = await admin.from("profiles").select("id").eq("username", username).maybeSingle();
+      if (dupU) throw new HttpError(409, "Este nome de usuário já está em uso.");
+      if (emailInformado) {
+        const { data: dup } = await admin.from("profiles").select("id").ilike("email", emailInformado).maybeSingle();
+        if (dup) throw new HttpError(409, "Já existe um usuário com este e-mail.");
+      }
 
-      const meta = { nome, telefone, cargo };
+      const email = emailInformado || `${username}@${TECH_DOMAIN}`;
+      const meta = { nome, telefone, cargo, username };
       let newUserId: string;
       if (senha) {
+        // sem confirmação por e-mail: conta já nasce confirmada
         const { data, error } = await admin.auth.admin.createUser({
-          email, password: senha, email_confirm: true, user_metadata: meta, app_metadata: { role, cliente_id: clienteId },
+          email, password: senha, email_confirm: true, user_metadata: meta, app_metadata: { role, cliente_id: clienteId, username },
         });
         if (error || !data.user) throw new HttpError(400, "Não foi possível criar o usuário.");
         newUserId = data.user.id;
@@ -123,7 +135,7 @@ Deno.serve(async (req) => {
       // Garante papel e vínculo (o convite não aceita app_metadata)
       const { error: roleErr } = await admin.from("user_roles").upsert({ user_id: newUserId, role, updated_by: caller.id });
       if (roleErr) throw new HttpError(400, "Usuário criado, mas não foi possível definir o perfil de acesso.");
-      await admin.from("profiles").update({ nome, telefone: telefone || null, cargo, cliente_id: clienteId, ativo: body.ativo !== false })
+      await admin.from("profiles").update({ nome, username, telefone: telefone || null, cargo, cliente_id: clienteId, ativo: body.ativo !== false })
         .eq("id", newUserId);
       if (body.ativo === false) await admin.auth.admin.updateUserById(newUserId, { ban_duration: "876000h" });
 
@@ -150,6 +162,13 @@ Deno.serve(async (req) => {
         patch.telefone = t || null;
       }
       if (body.cargo !== undefined) patch.cargo = str(body.cargo, 80) || null;
+      if (body.username !== undefined) {
+        const u = str(body.username, 30).toLowerCase();
+        if (!USER_RE.test(u)) throw new HttpError(400, "Usuário inválido: use 3 a 30 letras minúsculas, números, ponto, hífen ou _.");
+        const { data: d } = await admin.from("profiles").select("id").eq("username", u).neq("id", userId).maybeSingle();
+        if (d) throw new HttpError(409, "Este nome de usuário já está em uso.");
+        patch.username = u;
+      }
 
       if (body.role !== undefined) {
         const newRole = assertRole(body.role);
@@ -164,6 +183,13 @@ Deno.serve(async (req) => {
         if (newRole === "cliente" && !patch.cliente_id) throw new HttpError(400, "Selecione o cliente vinculado a este acesso.");
       } else if (body.cliente_id !== undefined && targetRole === "cliente") {
         patch.cliente_id = str(body.cliente_id, 36) || null;
+      }
+
+      if (body.nova_senha) {
+        const ns = String(body.nova_senha);
+        if (ns.length < 8) throw new HttpError(400, "A nova senha deve ter ao menos 8 caracteres.");
+        const { error } = await admin.auth.admin.updateUserById(userId, { password: ns });
+        if (error) throw new HttpError(400, "Não foi possível definir a nova senha.");
       }
 
       if (Object.keys(patch).length) {
@@ -199,7 +225,7 @@ Deno.serve(async (req) => {
       if (!targetRole) throw new HttpError(404, "Usuário não encontrado.");
       if (!canManage(targetRole)) throw new HttpError(403, "Você não pode alterar este usuário.");
       const { data: p } = await admin.from("profiles").select("email").eq("id", userId).maybeSingle();
-      if (!p?.email) throw new HttpError(404, "Usuário não encontrado.");
+      if (!p?.email) throw new HttpError(400, "Este usuário não tem e-mail. Defina uma nova senha provisória em Editar.");
       const { error } = await userClient.auth.resetPasswordForEmail(p.email, {
         redirectTo: appUrl ? `${appUrl}/nova-senha` : undefined,
       });

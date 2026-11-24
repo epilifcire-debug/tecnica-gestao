@@ -35,7 +35,7 @@ export default function Usuarios() {
     const rm = new Map((roles.data ?? []).map((r) => [r.user_id, r.role as Role]));
     return (profiles.data ?? []).map((p): Row => ({ ...p, role: rm.get(p.id) }))
       .filter((p) => (aba === "todos" ? true : aba === "ativos" ? p.ativo : !p.ativo))
-      .filter((p) => !t || `${p.nome} ${p.email}`.toLowerCase().includes(t.toLowerCase()));
+      .filter((p) => !t || `${p.nome} ${p.email ?? ""} ${p.username}`.toLowerCase().includes(t.toLowerCase()));
   }, [profiles.data, roles.data, aba, t]);
   const canManage = (r?: Role) => master || (!!r && !ADMIN_ROLES.includes(r));
 
@@ -48,7 +48,7 @@ export default function Usuarios() {
     catch (e) { toast.error(friendlyError(e)); }
   };
   const reset = async (u: Row) => {
-    if (!(await confirm({ title: "Enviar redefinição de senha?", text: `Um link seguro será enviado para ${u.email}.`, confirm: "Enviar" }))) return;
+    if (!(await confirm({ title: "Enviar redefinição de senha?", text: u.email ? `Um link seguro será enviado para ${u.email}.` : "Este usuário não tem e-mail: use Editar → Definir nova senha.", confirm: "Enviar" }))) return;
     try { await api().invoke("admin-users", { action: "reset_password", user_id: u.id }); toast.success("E-mail de redefinição enviado."); } catch (e) { toast.error(friendlyError(e)); }
   };
 
@@ -67,7 +67,7 @@ export default function Usuarios() {
                 <Avatar nome={u.nome} url={u.avatar_url} size={42} />
                 <div className="min-w-0 flex-1">
                   <p className="flex items-center gap-1.5 truncate font-medium">{u.nome}{u.role === "admin_master" && <ShieldCheck className="h-4 w-4 text-gold" aria-label="Administrador Master" />}{u.id === userId && <span className="text-xs text-muted">(você)</span>}</p>
-                  <p className="truncate text-[12.5px] text-muted">{u.email}{u.telefone ? ` · ${maskPhone(u.telefone)}` : ""}</p>
+                  <p className="truncate text-[12.5px] text-muted">@{u.username}{u.email ? ` · ${u.email}` : ""}{u.telefone ? ` · ${maskPhone(u.telefone)}` : ""}</p>
                   <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                     <Badge tone={u.role && ADMIN_ROLES.includes(u.role) ? "gold" : u.role === "cliente" ? "info" : "muted"}>{u.role ? ROLE_LABEL[u.role as Role] : "Sem perfil"}</Badge>
                     <Badge tone={u.ativo ? "ok" : "bad"}>{u.ativo ? "Ativo" : "Inativo"}</Badge>
@@ -98,12 +98,16 @@ function UserForm({ row, onClose, master, self }: { row: Row | null; onClose: ()
   const roleOpts = (master ? ["admin_master", "administrador", "colaborador", "cliente"] : ["colaborador", "cliente"]).map((r) => ({ value: r, label: ROLE_LABEL[r as Role] }));
   const fields: FieldDef[] = [
     { name: "nome", label: "Nome completo", required: true, col: 2, validate: (v) => (String(v).trim().split(/\s+/).length < 2 ? "Informe nome e sobrenome." : null) },
-    { name: "email", label: "E-mail", type: "email", required: true, disabled: () => !isNew, hint: !isNew ? "O e-mail de acesso não pode ser alterado aqui." : undefined },
+    { name: "username", label: "Nome de usuário (login)", required: true, hint: "Minúsculo, sem espaço. Ex.: joao.santos",
+      validate: (v) => (/^[a-z0-9._-]{3,30}$/.test(String(v).trim().toLowerCase()) ? null : "Use 3 a 30 letras, números, ponto, hífen ou _.") },
+    { name: "email", label: "E-mail (opcional)", type: "email", disabled: () => !isNew, hint: !isNew ? "O e-mail de acesso não pode ser alterado aqui." : "Sem e-mail, a pessoa entra só pelo nome de usuário." },
     { name: "telefone", label: "Telefone", type: "tel" },
     { name: "cargo", label: "Cargo / função", hidden: (v) => v.role === "cliente" },
     { name: "role", label: "Perfil de acesso", type: "select", required: true, options: roleOpts, disabled: () => self, hint: self ? "Você não pode alterar o seu próprio perfil." : undefined },
     { name: "cliente_id", label: "Cliente vinculado", type: "ref", ref: { table: "clientes" }, required: true, hidden: (v) => v.role !== "cliente", hint: "O cliente verá somente as obras deste cadastro no Portal." },
-    { name: "senha_provisoria", label: "Senha provisória (opcional)", hidden: () => !isNew, hint: "Deixe em branco para enviar um convite por e-mail. Mínimo 8 caracteres.", validate: (v) => (v && String(v).length < 8 ? "Mínimo de 8 caracteres." : null) },
+    { name: "senha_provisoria", label: "Senha provisória", hidden: () => !isNew, hint: "Obrigatória sem e-mail. Com e-mail, deixe em branco para enviar convite.",
+      validate: (v, a) => (!a.email && !v ? "Informe uma senha (mín. 8) ou um e-mail." : v && String(v).length < 8 ? "Mínimo de 8 caracteres." : null) },
+    { name: "nova_senha", label: "Definir nova senha (opcional)", hidden: () => isNew, hint: "Útil para quem não tem e-mail. Mínimo 8 caracteres.", validate: (v) => (v && String(v).length < 8 ? "Mínimo de 8 caracteres." : null) },
     { name: "ativo", label: "Usuário ativo", type: "switch", hidden: () => !isNew },
   ];
   const [v, setV] = useState<Row>({});
@@ -118,12 +122,12 @@ function UserForm({ row, onClose, master, self }: { row: Row | null; onClose: ()
     if (Object.keys(er).length) return;
     setBusy(true);
     try {
-      const body = { nome: String(v.nome).trim(), telefone: digits(String(v.telefone ?? "")), cargo: v.cargo || null, role: v.role, cliente_id: v.role === "cliente" ? v.cliente_id : null };
+      const body = { nome: String(v.nome).trim(), username: String(v.username).trim().toLowerCase(), telefone: digits(String(v.telefone ?? "")), cargo: v.cargo || null, role: v.role, cliente_id: v.role === "cliente" ? v.cliente_id : null };
       if (isNew) {
-        const r = await api().invoke<Row>("admin-users", { action: "create", ...body, email: String(v.email).trim().toLowerCase(), senha_provisoria: v.senha_provisoria || undefined, ativo: !!v.ativo });
+        const r = await api().invoke<Row>("admin-users", { action: "create", ...body, email: v.email ? String(v.email).trim().toLowerCase() : undefined, senha_provisoria: v.senha_provisoria || undefined, ativo: !!v.ativo });
         toast.success(r.convite_enviado && !IS_DEMO ? "Usuário cadastrado com sucesso. Convite enviado por e-mail." : "Usuário cadastrado com sucesso.");
       } else {
-        await api().invoke("admin-users", { action: "update", user_id: row!.id, ...body, ...(self ? { role: undefined } : {}) });
+        await api().invoke("admin-users", { action: "update", user_id: row!.id, ...body, ...(v.nova_senha ? { nova_senha: v.nova_senha } : {}), ...(self ? { role: undefined } : {}) });
         toast.success("Usuário atualizado.");
       }
       qc.invalidateQueries({ queryKey: ["profiles"] }); qc.invalidateQueries({ queryKey: ["user_roles"] });

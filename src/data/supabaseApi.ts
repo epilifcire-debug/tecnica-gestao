@@ -99,8 +99,16 @@ export const supabaseApi: Api = {
     });
     return () => data.subscription.unsubscribe();
   },
-  async signIn(email, password) {
-    const { error } = await supabase().auth.signInWithPassword({ email: email.trim().toLowerCase(), password });
+  async signIn(login, password) {
+    // aceita nome de usuário OU e-mail
+    let email = login.trim().toLowerCase();
+    if (!email.includes("@")) {
+      const { data, error: e } = await supabase().rpc("login_email", { p_login: email });
+      if (e) throw e;
+      if (!data) throw new Error("Invalid login credentials");
+      email = data as string;
+    }
+    const { error } = await supabase().auth.signInWithPassword({ email, password });
     if (error) throw error;
   },
   async signOut() {

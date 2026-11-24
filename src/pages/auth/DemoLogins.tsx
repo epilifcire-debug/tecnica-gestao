@@ -11,7 +11,7 @@ export default function DemoLogins({ onPick }: { onPick: (email: string) => void
           </button>
         ))}
       </div>
-      <p className="mt-2 text-[11px] text-muted">Qualquer senha funciona na demonstração.</p>
+      <p className="mt-2 text-[11px] text-muted">Entre com o usuário ou o e-mail. Qualquer senha funciona na demonstração.</p>
     </div>
   );
 }

@@ -24,8 +24,10 @@ export default function Login() {
     e.preventDefault();
     if (busy) return; // impede múltiplos envios
     const er: typeof errors = {};
-    if (!email.trim()) er.email = "Informe seu e-mail.";
-    else if (!validEmail(email)) er.email = "E-mail inválido.";
+    const login = email.trim();
+    if (!login) er.email = "Informe seu usuário ou e-mail.";
+    else if (login.includes("@") && !validEmail(login)) er.email = "E-mail inválido.";
+    else if (!login.includes("@") && login.length < 3) er.email = "Usuário inválido.";
     if (!senha) er.senha = "Informe sua senha.";
     setErrors(er);
     if (Object.keys(er).length) return;
@@ -50,8 +52,8 @@ export default function Login() {
       </div>
       <form onSubmit={submit} noValidate className="mt-7 space-y-4">
         {erro && <div role="alert" className="flex items-start gap-2.5 rounded-xl border border-bad/30 bg-bad/10 px-3.5 py-3 text-sm text-red-200"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />{erro}</div>}
-        <Field label="E-mail" htmlFor="email" error={errors.email} required>
-          <Input id="email" type="email" inputMode="email" autoComplete="username" placeholder="seu@email.com" value={email}
+        <Field label="Usuário ou e-mail" htmlFor="email" error={errors.email} required>
+          <Input id="email" type="text" inputMode="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} autoComplete="username" placeholder="seu.usuario ou seu@email.com" value={email}
             invalid={!!errors.email} onChange={(e) => { setEmail(e.target.value); setErrors((x) => ({ ...x, email: undefined })); }} disabled={busy} />
         </Field>
         <Field label="Senha" htmlFor="senha" error={errors.senha} required>

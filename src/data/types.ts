@@ -2,7 +2,7 @@ export type Role = "admin_master" | "administrador" | "colaborador" | "cliente";
 export type Row = Record<string, any>;
 
 export interface Profile {
-  id: string; nome: string; email: string; telefone: string | null; cargo: string | null;
+  id: string; nome: string; username: string; email: string | null; telefone: string | null; cargo: string | null;
   avatar_url: string | null; ativo: boolean; cliente_id: string | null; created_at: string;
 }
 export interface Obra {

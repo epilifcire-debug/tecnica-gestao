@@ -117,4 +117,20 @@ do $$ begin
   exception when insufficient_privilege then raise notice 'ok  anônimo sem acesso'; end;
 end $$;
 reset role;
+-- ===== LOGIN POR USUÁRIO OU E-MAIL
+insert into auth.users (id,email,raw_user_meta_data,raw_app_meta_data) values ('00000000-0000-0000-0000-000000000011','joaquim@usuarios.tecnica.local','{"nome":"Joaquim Pedreiro","username":"Joaquim"}','{"role":"colaborador"}');
+select pg_temp.ok((select username from profiles where id='00000000-0000-0000-0000-000000000011')='joaquim','username gravado em minúsculo');
+select pg_temp.ok((select email from profiles where id='00000000-0000-0000-0000-000000000011') is null,'usuário sem e-mail fica sem e-mail no perfil');
+select pg_temp.ok((select username from profiles where id='00000000-0000-0000-0000-00000000000a')='master','username gerado a partir do e-mail');
+set role anon;
+select pg_temp.ok(login_email('JOAQUIM')='joaquim@usuarios.tecnica.local','anônimo resolve login por usuário');
+select pg_temp.ok(login_email('Fulano@Email.com')='fulano@email.com','login por e-mail passa direto');
+select pg_temp.ok(login_email('naoexiste') is null,'usuário inexistente retorna nulo');
+reset role;
+set role authenticated; set request.jwt.claim.sub = '00000000-0000-0000-0000-000000000011';
+do $$ begin
+  begin update profiles set username='chefe' where id='00000000-0000-0000-0000-000000000011'; raise exception 'X';
+  exception when insufficient_privilege then raise notice 'ok  usuário comum não troca o próprio username'; end;
+end $$;
+reset role;
 select 'TODOS OS TESTES PASSARAM' as resultado;

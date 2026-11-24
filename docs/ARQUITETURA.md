@@ -10,6 +10,9 @@
 
 Usuário **inativo** perde acesso no banco na hora (todas as policies negam), é banido no Auth pela Edge Function e é deslogado no app (Realtime + revalidação periódica).
 
+## Login
+Usuário entra com **nome de usuário ou e-mail**. `login_email()` (RPC liberada ao anônimo) converte usuário → e-mail de acesso antes do `signInWithPassword`; usuário inexistente cai na mesma mensagem genérica de erro. Quem não tem e-mail recebe no Auth um e-mail técnico `<usuario>@usuarios.tecnica.local` (nunca exibido nem usado para envio), com conta já confirmada e senha definida pelo administrador. Só gestor altera nome de usuário.
+
 ## Matriz módulo × perfil (frontend = `src/auth/permissions.ts`; banco = RLS)
 | Módulo | Master | Admin | Colab. | Cliente |
 |---|---|---|---|---|
@@ -26,6 +29,7 @@ Usuário **inativo** perde acesso no banco na hora (todas as policies negam), é
 - **0003** orçamentos + itens (totais calculados no banco, travados após aprovação), contratos, lançamentos (coerência pago/data), movimentos de estoque (saldo automático, sem estoque negativo), vistorias, laudos, compromissos.
 - **0004** RLS em todas as tabelas, sem `true` em operação sensível; anônimo sem acesso.
 - **0005** RPCs: `dashboard_resumo`, `receitas_gastos_mensal`, `saldo_diario`, `obra_financeiro`, `aprovar_orcamento` (atômico e idempotente: cria contrato e, opcionalmente, a obra), `duplicar_orcamento`, `gerar_parcelas`, `busca_global`.
+- **0007** `profiles.username` único, e-mail opcional, `login_email()`.
 - **0006** buckets (`obras` e `documentos` privados com URL assinada; `avatars` e `empresa` públicos) com policies por obra/papel; `audit_log` com trilha de alterações; Realtime só em `profiles`/`user_roles`.
 
 ## Fórmulas do Dashboard

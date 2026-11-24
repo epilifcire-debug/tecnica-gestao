@@ -76,11 +76,12 @@ export default function Perfil() {
             <button onClick={() => file.current?.click()} aria-label="Alterar foto" className="absolute -bottom-1 -right-1 grid h-8 w-8 place-items-center rounded-full bg-gold text-[#1a1406] ring-4 ring-surface"><Camera className="h-4 w-4" /></button>
             <input ref={file} type="file" accept="image/*" className="hidden" onChange={(e) => avatar(e.target.files?.[0])} />
           </div>
-          <div><p className="text-lg font-semibold">{profile.nome}</p><p className="text-sm text-muted">{profile.email}</p><Badge tone="gold" className="mt-1.5">{role ? ROLE_LABEL[role] : ""}</Badge></div>
+          <div><p className="text-lg font-semibold">{profile.nome}</p><p className="text-sm text-muted">@{profile.username}{profile.email ? ` · ${profile.email}` : ""}</p><Badge tone="gold" className="mt-1.5">{role ? ROLE_LABEL[role] : ""}</Badge></div>
         </div>
         <form onSubmit={salvar} noValidate className="grid gap-4 sm:grid-cols-2">
           <Field label="Nome" required error={err.nome} htmlFor="n" className="sm:col-span-2"><Input id="n" value={nome} invalid={!!err.nome} onChange={(e) => setNome(e.target.value)} /></Field>
-          <Field label="E-mail" htmlFor="em" hint="Para alterar o e-mail, fale com o administrador."><Input id="em" value={profile.email} disabled /></Field>
+          <Field label="Usuário (login)" htmlFor="us" hint="Alterado somente pelo administrador."><Input id="us" value={profile.username} disabled /></Field>
+          <Field label="E-mail" htmlFor="em" hint="Para incluir ou alterar o e-mail, fale com o administrador."><Input id="em" value={profile.email ?? "Sem e-mail"} disabled /></Field>
           <Field label="Telefone" error={err.tel} htmlFor="t"><Input id="t" type="tel" inputMode="tel" value={tel} invalid={!!err.tel} onChange={(e) => setTel(maskPhone(e.target.value))} placeholder="(99) 99999-9999" /></Field>
           {role !== "cliente" && <Field label="Cargo / função" htmlFor="c"><Input id="c" value={cargo} onChange={(e) => setCargo(e.target.value)} /></Field>}
           <Field label="Perfil de acesso" htmlFor="r" hint="Definido pelo administrador."><Input id="r" value={role ? ROLE_LABEL[role] : ""} disabled /></Field>

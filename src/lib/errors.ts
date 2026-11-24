@@ -6,7 +6,8 @@ export function friendlyError(err: unknown, fallback = "Não foi possível concl
 
   if (!navigator.onLine || low.includes("failed to fetch") || low.includes("networkerror") || low.includes("load failed"))
     return "Sem conexão com o servidor. Verifique sua internet e tente novamente.";
-  if (low.includes("invalid login credentials")) return "E-mail ou senha incorretos.";
+  if (low.includes("invalid login credentials")) return "Usuário/e-mail ou senha incorretos.";
+  if ((e as any)?.code === "PGRST116") return "Você não possui permissão para esta ação.";
   if (low.includes("email not confirmed")) return "Confirme seu e-mail antes de entrar.";
   if (low.includes("user is banned") || low.includes("banned")) return "Seu acesso está desativado. Procure o administrador.";
   if (low.includes("rate limit") || e?.status === 429) return "Muitas tentativas. Aguarde alguns minutos e tente novamente.";
