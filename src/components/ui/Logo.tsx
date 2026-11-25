@@ -27,7 +27,7 @@ export function Logo({ variant = "stack", size = "md", className }: { variant?: 
       <LogoMark className={clsx(s[0], "text-ink")} />
       <div className={clsx("mt-3 font-display font-semibold leading-none tracking-[0.06em]", s[1])}>TECNICA</div>
       <div className={clsx("mt-1.5 font-light tracking-[0.38em] text-ink/90", s[2])}>ENGENHARIA</div>
-      <div className={clsx("mt-2 font-medium tracking-[0.42em] text-gold", s[3])}>GESTÃO DE OBRAS</div>
+      <div className={clsx("mt-2 font-medium tracking-[0.42em] text-pearl", s[3])}>GESTÃO DE OBRAS</div>
     </div>
   );
 }

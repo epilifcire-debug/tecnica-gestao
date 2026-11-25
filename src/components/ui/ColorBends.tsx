@@ -11,9 +11,9 @@ export interface ColorBendsProps {
   rotation?: number; fadeTop?: number; iterations?: number; intensity?: number; className?: string;
 }
 
-/** Preset dourado do padrão EFCsys (luxo/premium) — cor da marca Técnica */
-export const PRESET_DOURADO: ColorBendsProps = {
-  color: "#D4AF37", speed: 0.18, frequency: 1.25, noise: 0.08, bandWidth: 0.32, rotation: 55, fadeTop: 0.88, iterations: 2, intensity: 1.2,
+/** Preset pérola (base: preset dourado/luxo do padrão EFCsys, recolorido para a marca Técnica: preto e branco perolado) */
+export const PRESET_PEROLA: ColorBendsProps = {
+  color: "#ECE7DF", speed: 0.16, frequency: 1.2, noise: 0.07, bandWidth: 0.3, rotation: 55, fadeTop: 0.88, iterations: 2, intensity: 0.85,
 };
 
 const VERT = `attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
@@ -44,7 +44,7 @@ function hexToRgb(hex: string): [number, number, number] {
 }
 
 export function ColorBends(props: ColorBendsProps) {
-  const { color = "#D4AF37", speed = 0.2, frequency = 1.2, noise = 0.1, bandWidth = 0.3, rotation = 55, fadeTop = 0.85,
+  const { color = "#ECE7DF", speed = 0.2, frequency = 1.2, noise = 0.1, bandWidth = 0.3, rotation = 55, fadeTop = 0.85,
     iterations = 2, intensity = 1.1, className } = props;
   const ref = useRef<HTMLCanvasElement>(null);
 
@@ -97,6 +97,6 @@ export function ColorBends(props: ColorBendsProps) {
 
   return (
     <canvas ref={ref} aria-hidden className={className}
-      style={{ width: "100%", height: "100%", display: "block", background: "radial-gradient(60% 80% at 70% 20%, rgb(214 172 66 / .12), transparent 70%)" }} />
+      style={{ width: "100%", height: "100%", display: "block", background: "radial-gradient(60% 80% at 70% 20%, rgb(236 231 223 / .08), transparent 70%)" }} />
   );
 }

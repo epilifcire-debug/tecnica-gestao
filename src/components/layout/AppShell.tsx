@@ -50,7 +50,7 @@ export function AppShell() {
     <div className="min-h-dvh lg:pl-[248px]">
       {IS_DEMO && <DemoBar />}
       {/* ------------------------------------------------ Sidebar (desktop) */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[248px] flex-col border-r border-line/70 bg-[#0c1016]/95 backdrop-blur lg:flex" aria-label="Menu principal">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[248px] flex-col border-r border-line/70 bg-[#0b0b0d]/95 backdrop-blur lg:flex" aria-label="Menu principal">
         <Link to="/" className="flex justify-center px-6 pb-4 pt-5"><Logo variant="stack" size="sm" /></Link>
         <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 pb-3">
           {items.map((n) => <SideLink key={n.to} {...n} />)}
@@ -77,7 +77,7 @@ export function AppShell() {
         <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-3 px-4 sm:px-6">
           <button className="grid h-10 w-10 place-items-center rounded-xl text-ink lg:hidden" onClick={() => setMore(true)} aria-label="Abrir menu"><Menu className="h-5 w-5" /></button>
           <Link to="/" className="lg:hidden"><Logo variant="inline" /></Link>
-          <button onClick={() => setSearch(true)} className="ml-auto hidden h-10 w-full max-w-md items-center gap-2.5 rounded-xl border border-line bg-surface/80 px-3.5 text-sm text-muted transition hover:border-gold/40 sm:flex lg:ml-0">
+          <button onClick={() => setSearch(true)} className="ml-auto hidden h-10 w-full max-w-md items-center gap-2.5 rounded-xl border border-line bg-surface/80 px-3.5 text-sm text-muted transition hover:border-pearl/40 sm:flex lg:ml-0">
             <Search className="h-4 w-4" /> <span className="flex-1 text-left">Buscar obras, clientes, tarefas, orçamentos…</span>
             <kbd className="rounded-md border border-line px-1.5 py-0.5 text-[11px]">Ctrl + K</kbd>
           </button>
@@ -94,13 +94,13 @@ export function AppShell() {
       </main>
 
       {/* ------------------------------------------------ Bottom nav (mobile) */}
-      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-line/70 bg-[#0c1016]/95 backdrop-blur lg:hidden" style={{ paddingBottom: "var(--safe-bottom)" }} aria-label="Navegação inferior">
+      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-line/70 bg-[#0b0b0d]/95 backdrop-blur lg:hidden" style={{ paddingBottom: "var(--safe-bottom)" }} aria-label="Navegação inferior">
         <div className="mx-auto grid h-16 max-w-md grid-cols-5 items-center">
           <BottomLink to="/" icon={<LayoutDashboard className="h-5 w-5" />} label="Início" />
           <BottomLink to="/obras" icon={<Building2 className="h-5 w-5" />} label="Obras" />
           <div className="flex justify-center">
             <button onClick={() => setQuick(true)} aria-label="Novo registro"
-              className="-mt-6 grid h-14 w-14 place-items-center rounded-full bg-gradient-to-b from-gold-soft to-gold text-[#1a1406] shadow-[0_8px_24px_-6px_rgb(var(--gold)/.8)] ring-4 ring-bg active:scale-95">
+              className="-mt-6 grid h-14 w-14 place-items-center rounded-full bg-gradient-to-b from-pearl-soft to-pearl text-[#0B0B0D] shadow-[0_8px_24px_-6px_rgb(var(--pearl)/.8)] ring-4 ring-bg active:scale-95">
               <Plus className="h-6 w-6" strokeWidth={2.5} />
             </button>
           </div>
@@ -113,7 +113,7 @@ export function AppShell() {
       {more && (
         <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
           <div className="absolute inset-0 bg-black/60" onClick={() => setMore(false)} />
-          <div className="absolute inset-y-0 left-0 flex w-[84%] max-w-[320px] flex-col border-r border-line bg-[#0c1016] animate-[fade-up_.2s_ease-out]" style={{ paddingTop: "var(--safe-top)" }}>
+          <div className="absolute inset-y-0 left-0 flex w-[84%] max-w-[320px] flex-col border-r border-line bg-[#0b0b0d] animate-[fade-up_.2s_ease-out]" style={{ paddingTop: "var(--safe-top)" }}>
             <div className="flex items-center justify-between px-5 py-4">
               <Logo variant="inline" />
               <button onClick={() => setMore(false)} className="grid h-10 w-10 place-items-center rounded-xl" aria-label="Fechar menu"><X className="h-5 w-5" /></button>
@@ -137,7 +137,7 @@ function SideLink({ to, label, icon: Icon }: { to: string; label: string; icon: 
   return (
     <NavLink to={to} end={to === "/"}
       className={({ isActive }) => clsx("group flex h-10 items-center gap-3 rounded-xl px-3 text-[14px] transition",
-        isActive ? "bg-gradient-to-r from-gold/20 to-gold/5 text-gold-soft ring-1 ring-gold/40" : "text-ink/75 hover:bg-surface-2 hover:text-ink")}>
+        isActive ? "bg-gradient-to-r from-pearl/20 to-pearl/5 text-pearl-soft ring-1 ring-pearl/40" : "text-ink/75 hover:bg-surface-2 hover:text-ink")}>
       <Icon className="h-[19px] w-[19px] shrink-0" />{label}
     </NavLink>
   );
@@ -145,7 +145,7 @@ function SideLink({ to, label, icon: Icon }: { to: string; label: string; icon: 
 
 function BottomLink({ to, icon, label }: { to: string; icon: React.ReactNode; label: string }) {
   return (
-    <NavLink to={to} end={to === "/"} className={({ isActive }) => clsx("flex flex-col items-center gap-1 text-[11px]", isActive ? "text-gold-soft" : "text-muted")}>
+    <NavLink to={to} end={to === "/"} className={({ isActive }) => clsx("flex flex-col items-center gap-1 text-[11px]", isActive ? "text-pearl-soft" : "text-muted")}>
       {icon}{label}
     </NavLink>
   );
@@ -208,7 +208,7 @@ function Alerts() {
             {list.length === 0 ? <p className="px-4 py-6 text-center text-sm text-muted">Nenhuma pendência no momento.</p> :
               list.map((a) => (
                 <Link key={a.label} to={a.to} onClick={() => setOpen(false)} className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-surface-2">
-                  <a.icon className="h-4 w-4 text-gold" /><span className="flex-1">{a.label}</span><span className="font-semibold">{a.n}</span>
+                  <a.icon className="h-4 w-4 text-pearl" /><span className="flex-1">{a.label}</span><span className="font-semibold">{a.n}</span>
                 </Link>
               ))}
           </div>
@@ -235,8 +235,8 @@ function QuickAdd({ open, onClose }: { open: boolean; onClose: () => void }) {
     <Modal open={open} onClose={onClose} title="Criar novo" size="sm">
       <div className="grid grid-cols-3 gap-2.5 pb-2">
         {opts.map((o) => (
-          <button key={o.label} onClick={() => go(o.to)} className="flex flex-col items-center gap-2 rounded-2xl border border-line bg-bg/40 px-2 py-4 text-[12.5px] hover:border-gold/50">
-            <o.icon className="h-6 w-6 text-gold" />{o.label}
+          <button key={o.label} onClick={() => go(o.to)} className="flex flex-col items-center gap-2 rounded-2xl border border-line bg-bg/40 px-2 py-4 text-[12.5px] hover:border-pearl/50">
+            <o.icon className="h-6 w-6 text-pearl" />{o.label}
           </button>
         ))}
       </div>

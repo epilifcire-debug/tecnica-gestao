@@ -49,10 +49,10 @@ export default function Portal() {
         </Routes>
         <div className="mt-10 text-center"><Signature /></div>
       </main>
-      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-line/70 bg-[#0c1016]/95 backdrop-blur" style={{ paddingBottom: "var(--safe-bottom)" }} aria-label="Portal">
+      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-line/70 bg-[#0b0b0d]/95 backdrop-blur" style={{ paddingBottom: "var(--safe-bottom)" }} aria-label="Portal">
         <div className="mx-auto grid h-16 max-w-md grid-cols-4">
           {[["/portal", "Minha obra", Building2], ["/portal/documentos", "Documentos", FileText], ["/portal/financeiro", "Financeiro", CircleDollarSign], ["/portal/contato", "Contato", MessageCircle]].map(([to, l, I]: any) => (
-            <NavLink key={to} to={to} end={to === "/portal"} className={({ isActive }) => clsx("flex flex-col items-center justify-center gap-1 text-[11px]", isActive ? "text-gold-soft" : "text-muted")}><I className="h-5 w-5" />{l}</NavLink>
+            <NavLink key={to} to={to} end={to === "/portal"} className={({ isActive }) => clsx("flex flex-col items-center justify-center gap-1 text-[11px]", isActive ? "text-pearl-soft" : "text-muted")}><I className="h-5 w-5" />{l}</NavLink>
           ))}
         </div>
       </nav>
@@ -117,7 +117,7 @@ function ObraPortal({ obraId, hello }: { obraId?: string; hello?: string }) {
           </Card>
           <Card title="Etapas">
             <QueryView q={etapas} empty={<p className="text-sm text-muted">Cronograma ainda não publicado.</p>}>
-              {(l) => <ul className="space-y-3">{l.map((e) => <li key={e.id}><div className="mb-1 flex justify-between text-sm"><span>{e.nome}</span><span className="tabular-nums">{Math.round(e.percentual)}%</span></div><Progress value={e.percentual} tone={e.percentual >= 100 ? "ok" : "gold"} /></li>)}</ul>}
+              {(l) => <ul className="space-y-3">{l.map((e) => <li key={e.id}><div className="mb-1 flex justify-between text-sm"><span>{e.nome}</span><span className="tabular-nums">{Math.round(e.percentual)}%</span></div><Progress value={e.percentual} tone={e.percentual >= 100 ? "ok" : "pearl"} /></li>)}</ul>}
             </QueryView>
           </Card>
           {!!laudos.data?.length && <Card title="Laudos">{laudos.data.map((l) => (
@@ -152,7 +152,7 @@ function FinPortal() {
       <h1 className="text-2xl font-bold">Financeiro</h1>
       <div className="grid grid-cols-2 gap-3">
         <div className="card p-4"><p className="text-xs text-muted">Pago</p><p className="text-lg font-bold text-ok">{money(tot.pago)}</p></div>
-        <div className="card p-4"><p className="text-xs text-muted">Em aberto</p><p className="text-lg font-bold text-gold-soft">{money(tot.aberto)}</p></div>
+        <div className="card p-4"><p className="text-xs text-muted">Em aberto</p><p className="text-lg font-bold text-pearl-soft">{money(tot.aberto)}</p></div>
       </div>
       <Card title="Parcelas">
         <QueryView q={q} empty={<p className="text-sm text-muted">Nenhuma parcela registrada.</p>}>
@@ -176,11 +176,11 @@ function Contato() {
       <Card>
         {!c ? <Skeleton className="h-24" /> : (
           <div className="grid gap-2">
-            {c.telefone && <a href={`https://wa.me/55${digits(c.telefone)}`} target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-xl border border-line p-3.5 hover:border-gold/50"><MessageCircle className="h-5 w-5 text-ok" /><span className="flex-1">WhatsApp</span><span className="text-sm text-muted">{maskPhone(c.telefone)}</span></a>}
-            {c.telefone && <a href={`tel:+55${digits(c.telefone)}`} className="flex items-center gap-3 rounded-xl border border-line p-3.5 hover:border-gold/50"><Phone className="h-5 w-5 text-gold" /><span className="flex-1">Ligar</span></a>}
-            {c.email && <a href={`mailto:${c.email}`} className="flex items-center gap-3 rounded-xl border border-line p-3.5 hover:border-gold/50"><Mail className="h-5 w-5 text-blue-300" /><span className="flex-1">E-mail</span><span className="text-sm text-muted">{c.email}</span></a>}
+            {c.telefone && <a href={`https://wa.me/55${digits(c.telefone)}`} target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-xl border border-line p-3.5 hover:border-pearl/50"><MessageCircle className="h-5 w-5 text-ok" /><span className="flex-1">WhatsApp</span><span className="text-sm text-muted">{maskPhone(c.telefone)}</span></a>}
+            {c.telefone && <a href={`tel:+55${digits(c.telefone)}`} className="flex items-center gap-3 rounded-xl border border-line p-3.5 hover:border-pearl/50"><Phone className="h-5 w-5 text-pearl" /><span className="flex-1">Ligar</span></a>}
+            {c.email && <a href={`mailto:${c.email}`} className="flex items-center gap-3 rounded-xl border border-line p-3.5 hover:border-pearl/50"><Mail className="h-5 w-5 text-blue-300" /><span className="flex-1">E-mail</span><span className="text-sm text-muted">{c.email}</span></a>}
             {c.endereco && <p className="pt-2 text-sm text-muted">{c.endereco} — {c.cidade}/{c.uf}</p>}
-            <Badge tone="gold" className="mt-2 w-fit">{c.nome_fantasia}</Badge>
+            <Badge tone="pearl" className="mt-2 w-fit">{c.nome_fantasia}</Badge>
           </div>
         )}
       </Card>

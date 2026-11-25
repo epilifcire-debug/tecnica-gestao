@@ -10,9 +10,9 @@ export function DemoBar() {
     setTimeout(() => window.location.reload(), 400);
   };
   return (
-    <div className="flex items-center justify-center gap-3 bg-gradient-to-r from-gold/25 via-gold/15 to-gold/25 px-3 py-1.5 text-center text-[12px] text-gold-soft">
+    <div className="flex items-center justify-center gap-3 bg-gradient-to-r from-pearl/25 via-pearl/15 to-pearl/25 px-3 py-1.5 text-center text-[12px] text-pearl-soft">
       <span><strong>Pré-visualização</strong> — dados fictícios de demonstração, salvos só neste navegador.</span>
-      <button onClick={reset} className="inline-flex items-center gap-1 rounded-md border border-gold/40 px-2 py-0.5 hover:bg-gold/10"><RotateCcw className="h-3 w-3" />Restaurar</button>
+      <button onClick={reset} className="inline-flex items-center gap-1 rounded-md border border-pearl/40 px-2 py-0.5 hover:bg-pearl/10"><RotateCcw className="h-3 w-3" />Restaurar</button>
     </div>
   );
 }

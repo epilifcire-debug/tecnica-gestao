@@ -26,10 +26,10 @@ export const OBRA_STATUS: Record<ObraStatus, { label: string; tone: Tone }> = {
   planejamento: { label: "Planejamento", tone: "info" },
   em_andamento: { label: "Em andamento", tone: "ok" },
   pausada: { label: "Pausada", tone: "warn" },
-  concluida: { label: "Concluída", tone: "gold" },
+  concluida: { label: "Concluída", tone: "pearl" },
   cancelada: { label: "Cancelada", tone: "bad" },
 };
-export type Tone = "ok" | "bad" | "warn" | "info" | "violet" | "gold" | "muted";
+export type Tone = "ok" | "bad" | "warn" | "info" | "violet" | "pearl" | "muted";
 
 export const opts = <K extends string>(m: Record<K, { label: string; tone: Tone } | string>) =>
   (Object.keys(m) as K[]).map((k) => ({ value: k, label: typeof m[k] === "string" ? (m[k] as string) : (m[k] as any).label }));
@@ -40,7 +40,7 @@ export const ORC_STATUS = {
 } as const satisfies Record<string, { label: string; tone: Tone }>;
 export const CONTRATO_STATUS = {
   rascunho: { label: "Rascunho", tone: "muted" }, vigente: { label: "Vigente", tone: "ok" },
-  concluido: { label: "Concluído", tone: "gold" }, cancelado: { label: "Cancelado", tone: "bad" },
+  concluido: { label: "Concluído", tone: "pearl" }, cancelado: { label: "Cancelado", tone: "bad" },
 } as const satisfies Record<string, { label: string; tone: Tone }>;
 export const LANC_STATUS = {
   pendente: { label: "Pendente", tone: "warn" }, pago: { label: "Pago", tone: "ok" }, cancelado: { label: "Cancelado", tone: "muted" },
@@ -58,7 +58,7 @@ export const VISTORIA_STATUS = {
 } as const satisfies Record<string, { label: string; tone: Tone }>;
 export const LAUDO_STATUS = {
   em_elaboracao: { label: "Em elaboração", tone: "warn" }, em_revisao: { label: "Em revisão", tone: "info" },
-  concluido: { label: "Concluído", tone: "ok" }, entregue: { label: "Entregue", tone: "gold" },
+  concluido: { label: "Concluído", tone: "ok" }, entregue: { label: "Entregue", tone: "pearl" },
 } as const satisfies Record<string, { label: string; tone: Tone }>;
 export const ETAPA_STATUS = {
   nao_iniciada: { label: "Não iniciada", tone: "muted" }, em_andamento: { label: "Em andamento", tone: "info" },

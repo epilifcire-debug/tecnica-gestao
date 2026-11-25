@@ -8,7 +8,7 @@ async function lib() {
   return { jsPDF, autoTable: auto.default };
 }
 
-const GOLD: [number, number, number] = [214, 172, 66];
+const PEARL: [number, number, number] = [176, 170, 160]; // pérola escurecida p/ contraste no papel
 const DARK: [number, number, number] = [12, 15, 20];
 
 function header(doc: any, titulo: string, sub: string, empresa: Row | null) {
@@ -18,7 +18,7 @@ function header(doc: any, titulo: string, sub: string, empresa: Row | null) {
   [0, 1, 2].forEach((i) => doc.roundedRect(14, 8 + i * 5.2, 14, 3.4, 0.4, 0.4, "F"));
   doc.setTextColor(245, 245, 245); doc.setFont("helvetica", "bold"); doc.setFontSize(14); doc.text("TECNICA", 32, 13.5);
   doc.setFont("helvetica", "normal"); doc.setFontSize(6.5); doc.setCharSpace(1.6); doc.text("ENGENHARIA", 32, 17.5);
-  doc.setTextColor(...GOLD); doc.setFontSize(5.5); doc.text("GESTÃO DE OBRAS", 32, 21.5); doc.setCharSpace(0);
+  doc.setTextColor(...PEARL); doc.setFontSize(5.5); doc.text("GESTÃO DE OBRAS", 32, 21.5); doc.setCharSpace(0);
   doc.setTextColor(245, 245, 245); doc.setFont("helvetica", "bold"); doc.setFontSize(12); doc.text(titulo, w - 14, 14, { align: "right" });
   doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor(190, 196, 205); doc.text(sub, w - 14, 20, { align: "right" });
   if (empresa) {
@@ -33,7 +33,7 @@ function footer(doc: any, empresa: Row | null) {
   const w = doc.internal.pageSize.getWidth(), h = doc.internal.pageSize.getHeight();
   for (let i = 1; i <= n; i++) {
     doc.setPage(i);
-    doc.setDrawColor(...GOLD); doc.setLineWidth(0.4); doc.line(14, h - 14, w - 14, h - 14);
+    doc.setDrawColor(...PEARL); doc.setLineWidth(0.4); doc.line(14, h - 14, w - 14, h - 14);
     doc.setFontSize(7.5); doc.setTextColor(110, 110, 110);
     doc.text(empresa?.rodape_documentos || "Técnica Engenharia — Planejamento • Execução • Resultados", 14, h - 9);
     const assinatura = empresa?.assinatura_visivel === false ? "" : "Desenvolvido por EFCsys • Todos os direitos reservados.";
@@ -80,7 +80,7 @@ export async function pdfOrcamento(orc: Row, itens: Row[], empresa: Row | null) 
   };
   linha("Subtotal", money(orc.subtotal));
   if (Number(orc.desconto) > 0) linha("Desconto", `− ${money(orc.desconto)}`);
-  doc.setDrawColor(...GOLD); doc.line(w - 70, y - 3, w - 14, y - 3); y += 2;
+  doc.setDrawColor(...PEARL); doc.line(w - 70, y - 3, w - 14, y - 3); y += 2;
   linha("TOTAL", money(orc.total), true);
   doc.setFont("helvetica", "normal");
   if (orc.condicoes) { y += 4; y = label(doc, "Condições", orc.condicoes, 14, y, 180); }

@@ -18,7 +18,7 @@ export function RdoTab({ obra }: { obra: Obra }) {
           <ul className="divide-y divide-line/50">
             {rows.map((r) => (
               <li key={r.id}>
-                <Link to={`/obras/${obra.id}/rdo/${r.id}`} className="flex items-start gap-4 py-3.5 hover:text-gold-soft">
+                <Link to={`/obras/${obra.id}/rdo/${r.id}`} className="flex items-start gap-4 py-3.5 hover:text-pearl-soft">
                   <div className="grid w-14 shrink-0 place-items-center rounded-xl bg-surface-2 py-1.5 text-center leading-tight">
                     <span className="text-lg font-bold">{date(r.data).slice(0, 2)}</span><span className="text-[10px] uppercase text-muted">{date(r.data).slice(3, 5)}/{date(r.data).slice(8)}</span>
                   </div>

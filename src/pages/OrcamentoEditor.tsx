@@ -171,7 +171,7 @@ export default function OrcamentoEditor() {
             <div className="flex w-full max-w-xs items-center justify-between gap-3"><label htmlFor="desc" className="text-muted">Desconto</label>
               <Input id="desc" className="h-9 w-36 text-right" inputMode="numeric" placeholder="0,00" value={head.desconto} invalid={!!err.desconto} onChange={(e) => setHead({ ...head, desconto: maskMoneyInput(e.target.value) })} /></div>
             {err.desconto && <p className="text-xs text-red-300">{err.desconto}</p>}
-            <div className="flex w-full max-w-xs justify-between border-t border-gold/40 pt-2 text-lg font-bold"><span>Total</span><span className="tabular-nums text-gold-soft">{money(total)}</span></div>
+            <div className="flex w-full max-w-xs justify-between border-t border-pearl/40 pt-2 text-lg font-bold"><span>Total</span><span className="tabular-nums text-pearl-soft">{money(total)}</span></div>
           </div>
         </Card>
 
@@ -188,7 +188,7 @@ export default function OrcamentoEditor() {
         {!isNew && <Button variant="secondary" icon={<MessageCircle className="h-4 w-4" />} onClick={whatsapp}>WhatsApp</Button>}
         {!isNew && <Button variant="secondary" icon={<Mail className="h-4 w-4" />} onClick={email}>E-mail</Button>}
         {!locked && <Button variant="secondary" icon={<Save className="h-4 w-4" />} loading={busy === "save"} onClick={() => salvar()}>Salvar</Button>}
-        {!locked && orc.data?.status !== "enviado" && <Button variant="outline-gold" icon={<Send className="h-4 w-4" />} loading={busy === "enviado"} onClick={() => salvar("enviado")}>Marcar como enviado</Button>}
+        {!locked && orc.data?.status !== "enviado" && <Button variant="outline-pearl" icon={<Send className="h-4 w-4" />} loading={busy === "enviado"} onClick={() => salvar("enviado")}>Marcar como enviado</Button>}
         {!isNew && !locked && <Button variant="ghost" icon={<XCircle className="h-4 w-4" />} onClick={recusar}>Recusar</Button>}
         {!isNew && !locked && <Button icon={<CheckCircle2 className="h-4 w-4" />} onClick={async () => { const ok = await salvar(); if (ok) setAprovar(true); }}>Aprovar orçamento</Button>}
       </div>

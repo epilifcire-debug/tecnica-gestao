@@ -68,12 +68,12 @@ export default function Obras() {
               const atrasada = o.status === "em_andamento" && !!o.previsao_termino && o.previsao_termino < hoje && o.progresso < 100;
               return (
                 <li key={o.id}>
-                  <Link to={`/obras/${o.id}`} className="card group flex gap-3 overflow-hidden p-3 transition hover:border-gold/40">
+                  <Link to={`/obras/${o.id}`} className="card group flex gap-3 overflow-hidden p-3 transition hover:border-pearl/40">
                     <ObraCover o={o} className="h-24 w-24 shrink-0 rounded-xl transition duration-500 group-hover:scale-[1.03]" />
                     <div className="min-w-0 flex-1 py-0.5">
                       <div className="flex items-start justify-between gap-2">
                         <p className="truncate font-semibold">{o.nome}</p>
-                        <span className="text-sm font-semibold tabular-nums text-gold-soft">{Math.round(o.progresso)}%</span>
+                        <span className="text-sm font-semibold tabular-nums text-pearl-soft">{Math.round(o.progresso)}%</span>
                       </div>
                       <p className="mt-0.5 flex items-center gap-1 truncate text-[12.5px] text-muted"><MapPin className="h-3 w-3 shrink-0" />{o.endereco || o.cliente?.nome || "—"}</p>
                       <Progress value={o.progresso} className="mt-2.5" />
@@ -97,7 +97,7 @@ export default function Obras() {
         {!all.filter((o) => o.status === "em_andamento").length ? <EmptyState title="Nenhuma obra em andamento disponível." /> :
           <ul className="space-y-2">
             {all.filter((o) => o.status === "em_andamento").map((o) => (
-              <li key={o.id}><button className="flex w-full items-center gap-3 rounded-xl border border-line px-3 py-2.5 text-left hover:border-gold/50" onClick={() => nav(`/obras/${o.id}/rdo/novo`)}>
+              <li key={o.id}><button className="flex w-full items-center gap-3 rounded-xl border border-line px-3 py-2.5 text-left hover:border-pearl/50" onClick={() => nav(`/obras/${o.id}/rdo/novo`)}>
                 <ObraCover o={o} className="h-10 w-10 rounded-lg" /><span className="flex-1 truncate text-sm font-medium">{o.nome}</span>
               </button></li>
             ))}

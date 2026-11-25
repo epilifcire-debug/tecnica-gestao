@@ -41,7 +41,7 @@ export default function Financeiro() {
     <div>
       <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-5">
         {[
-          ["Recebido no mês", d?.recebido, "text-ok"], ["Gastos no mês", d?.gastos, "text-red-400"], ["Saldo do mês", d?.saldo, (d?.saldo ?? 0) < 0 ? "text-red-400" : "text-gold-soft"],
+          ["Recebido no mês", d?.recebido, "text-ok"], ["Gastos no mês", d?.gastos, "text-red-400"], ["Saldo do mês", d?.saldo, (d?.saldo ?? 0) < 0 ? "text-red-400" : "text-pearl-soft"],
           ["A receber", d?.a_receber, "text-blue-300"], ["A pagar", d?.a_pagar, "text-orange-300"],
         ].map(([k, v, c]) => (
           <div key={k as string} className="card p-4">

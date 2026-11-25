@@ -18,8 +18,8 @@ export function UpdatePrompt() {
   }, []);
   if (!need) return null;
   return (
-    <div className="fixed inset-x-3 bottom-20 z-50 mx-auto flex max-w-md items-center gap-3 rounded-2xl border border-gold/40 bg-surface p-3.5 shadow-2xl lg:bottom-6">
-      <RefreshCw className="h-5 w-5 shrink-0 text-gold" />
+    <div className="fixed inset-x-3 bottom-20 z-50 mx-auto flex max-w-md items-center gap-3 rounded-2xl border border-pearl/40 bg-surface p-3.5 shadow-2xl lg:bottom-6">
+      <RefreshCw className="h-5 w-5 shrink-0 text-pearl" />
       <p className="flex-1 text-sm">Nova versão disponível.</p>
       <Button size="sm" onClick={() => update?.(true)}>Atualizar</Button>
       <button onClick={() => setNeed(false)} aria-label="Depois" className="text-muted"><X className="h-4 w-4" /></button>

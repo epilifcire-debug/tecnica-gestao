@@ -32,7 +32,7 @@ export function NoPermission() {
   return (
     <div className="mx-auto mt-10 max-w-md">
       <div className="card card-pad flex flex-col items-center py-12 text-center">
-        <div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-gold/10 text-gold"><Lock className="h-7 w-7" /></div>
+        <div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-pearl/10 text-pearl"><Lock className="h-7 w-7" /></div>
         <h2 className="text-lg font-semibold">Acesso restrito</h2>
         <p className="mt-2 text-sm text-muted">Você não possui permissão para acessar esta área.</p>
         <Link to="/" className="mt-5"><Button variant="secondary">Voltar ao início</Button></Link>

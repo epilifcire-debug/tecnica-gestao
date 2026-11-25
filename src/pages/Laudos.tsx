@@ -21,7 +21,7 @@ export default function Laudos() {
         { key: "tipo", label: "Tipo", mobile: "sub" },
         { key: "prazo", label: "Prazo / Emissão", mobile: "meta", render: (r) => r.data_emissao ? `Emitido ${date(r.data_emissao)}` : r.prazo_entrega ? <span className={r.prazo_entrega < hoje ? "text-red-400" : ""}>Prazo {date(r.prazo_entrega)}</span> : "—" },
         { key: "responsavel", label: "Responsável", mobile: "meta", render: (r) => r.responsavel?.nome ?? "—" },
-        { key: "status", label: "Status", mobile: "badge", render: (r) => <span className="flex gap-1"><StatusBadge map={LAUDO_STATUS} value={r.status} />{r.visivel_cliente && <Badge tone="gold">Portal</Badge>}</span> },
+        { key: "status", label: "Status", mobile: "badge", render: (r) => <span className="flex gap-1"><StatusBadge map={LAUDO_STATUS} value={r.status} />{r.visivel_cliente && <Badge tone="pearl">Portal</Badge>}</span> },
       ]}
       defaults={{ status: "em_elaboracao", tipo: "Laudo de inspeção predial" }}
       fields={[

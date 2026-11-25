@@ -66,10 +66,10 @@ export default function Usuarios() {
               <li key={u.id} className="card flex items-center gap-3 p-3.5">
                 <Avatar nome={u.nome} url={u.avatar_url} size={42} />
                 <div className="min-w-0 flex-1">
-                  <p className="flex items-center gap-1.5 truncate font-medium">{u.nome}{u.role === "admin_master" && <ShieldCheck className="h-4 w-4 text-gold" aria-label="Administrador Master" />}{u.id === userId && <span className="text-xs text-muted">(você)</span>}</p>
+                  <p className="flex items-center gap-1.5 truncate font-medium">{u.nome}{u.role === "admin_master" && <ShieldCheck className="h-4 w-4 text-pearl" aria-label="Administrador Master" />}{u.id === userId && <span className="text-xs text-muted">(você)</span>}</p>
                   <p className="truncate text-[12.5px] text-muted">@{u.username}{u.email ? ` · ${u.email}` : ""}{u.telefone ? ` · ${maskPhone(u.telefone)}` : ""}</p>
                   <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
-                    <Badge tone={u.role && ADMIN_ROLES.includes(u.role) ? "gold" : u.role === "cliente" ? "info" : "muted"}>{u.role ? ROLE_LABEL[u.role as Role] : "Sem perfil"}</Badge>
+                    <Badge tone={u.role && ADMIN_ROLES.includes(u.role) ? "pearl" : u.role === "cliente" ? "info" : "muted"}>{u.role ? ROLE_LABEL[u.role as Role] : "Sem perfil"}</Badge>
                     <Badge tone={u.ativo ? "ok" : "bad"}>{u.ativo ? "Ativo" : "Inativo"}</Badge>
                     {u.cliente && <span className="text-[11.5px] text-muted">{u.cliente.nome}</span>}
                     <span className="text-[11.5px] text-muted">desde {date(u.created_at)}</span>

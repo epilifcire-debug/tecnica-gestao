@@ -70,7 +70,7 @@ export function DocsTab({ obra, readOnly }: { obra?: { id: string } | null; read
           <ul className="divide-y divide-line/50">
             {rows.map((d) => (
               <li key={d.id} className="flex items-center gap-3 py-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface-2 text-gold"><FileText className="h-5 w-5" /></span>
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface-2 text-pearl"><FileText className="h-5 w-5" /></span>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium">{d.nome}</p>
                   <p className="truncate text-xs text-muted">{d.categoria} · {date(d.created_at)} {size(d.tamanho_bytes)}{!obraId && d.obra ? ` · ${d.obra.nome}` : ""}</p>

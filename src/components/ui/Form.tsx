@@ -7,7 +7,7 @@ export function Field({ label, error, hint, required, children, htmlFor, classNa
 }) {
   return (
     <div className={className}>
-      {label && <label htmlFor={htmlFor} className="label">{label}{required && <span className="ml-0.5 text-gold" aria-hidden>*</span>}</label>}
+      {label && <label htmlFor={htmlFor} className="label">{label}{required && <span className="ml-0.5 text-pearl" aria-hidden>*</span>}</label>}
       {children}
       {error ? <p role="alert" className="mt-1.5 text-[13px] text-bad">{error}</p> : hint ? <p className="mt-1.5 text-[12px] text-muted">{hint}</p> : null}
     </div>
@@ -56,7 +56,7 @@ export function Switch({ checked, onChange, label, disabled }: { checked: boolea
     <label className={clsx("flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-line bg-bg/40 px-3.5 py-2.5", disabled && "opacity-60")}>
       <span className="text-sm">{label}</span>
       <button type="button" role="switch" aria-checked={checked} disabled={disabled} onClick={() => onChange(!checked)}
-        className={clsx("relative h-6 w-11 shrink-0 rounded-full transition", checked ? "bg-gold" : "bg-line")}>
+        className={clsx("relative h-6 w-11 shrink-0 rounded-full transition", checked ? "bg-pearl" : "bg-line")}>
         <span className={clsx("absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition", checked ? "left-[22px]" : "left-0.5")} />
       </button>
     </label>

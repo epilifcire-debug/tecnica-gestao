@@ -22,7 +22,7 @@ export function Card({ title, icon, action, children, className, pad = true }: {
     <section className={clsx("card", className)}>
       {(title || action) && (
         <header className="flex items-center justify-between gap-3 px-4 pt-4 sm:px-5">
-          <h2 className="flex items-center gap-2.5 text-[15px] font-semibold">{icon && <span className="text-gold">{icon}</span>}{title}</h2>
+          <h2 className="flex items-center gap-2.5 text-[15px] font-semibold">{icon && <span className="text-pearl">{icon}</span>}{title}</h2>
           {action}
         </header>
       )}
@@ -32,11 +32,11 @@ export function Card({ title, icon, action, children, className, pad = true }: {
 }
 
 export function SeeAll({ to, label = "Ver todos" }: { to: string; label?: string }) {
-  return <Link to={to} className="inline-flex h-8 items-center gap-1 rounded-lg border border-gold/40 px-2.5 text-[12.5px] text-gold-soft hover:bg-gold/10">{label}<ChevronRight className="h-3.5 w-3.5" /></Link>;
+  return <Link to={to} className="inline-flex h-8 items-center gap-1 rounded-lg border border-pearl/40 px-2.5 text-[12.5px] text-pearl-soft hover:bg-pearl/10">{label}<ChevronRight className="h-3.5 w-3.5" /></Link>;
 }
 
 const ICON_TONE = {
-  gold: "from-gold/30 to-gold/10 text-gold-soft ring-gold/30", ok: "from-ok/30 to-ok/10 text-ok ring-ok/30",
+  pearl: "from-pearl/30 to-pearl/10 text-pearl-soft ring-pearl/30", ok: "from-ok/30 to-ok/10 text-ok ring-ok/30",
   bad: "from-bad/30 to-bad/10 text-red-300 ring-bad/30", info: "from-info/30 to-info/10 text-blue-300 ring-info/30",
   violet: "from-violet/30 to-violet/10 text-violet-300 ring-violet/30", warn: "from-warn/30 to-warn/10 text-orange-300 ring-warn/30",
 } as const;
@@ -50,7 +50,7 @@ export function Tabs<T extends string>({ value, onChange, items, className }: { 
     <div role="tablist" className={clsx("-mx-1 flex gap-1 overflow-x-auto px-1 pb-1 [scrollbar-width:none]", className)}>
       {items.map((it) => (
         <button key={it.value} role="tab" aria-selected={value === it.value} onClick={() => onChange(it.value)}
-          className={clsx("h-9 shrink-0 rounded-lg px-3.5 text-sm transition", value === it.value ? "bg-gold/15 text-gold-soft ring-1 ring-gold/50" : "text-muted hover:bg-surface-2 hover:text-ink")}>
+          className={clsx("h-9 shrink-0 rounded-lg px-3.5 text-sm transition", value === it.value ? "bg-pearl/15 text-pearl-soft ring-1 ring-pearl/50" : "text-muted hover:bg-surface-2 hover:text-ink")}>
           {it.label}{it.count !== undefined && <span className="ml-1.5 text-[11px] opacity-70">{it.count}</span>}
         </button>
       ))}

@@ -1,7 +1,7 @@
 /** Ilustrações vetoriais de obra usadas no preview (demo) e como fallback sem foto. */
 const PALETTES = [
-  ["#1b2430", "#2b3644", "#d6ac42"], ["#182029", "#33404f", "#9fb4c8"], ["#1d2228", "#3a4350", "#e2c27a"],
-  ["#15202a", "#2a3a48", "#7fa7c4"], ["#20252c", "#3b434d", "#c9a34a"],
+  ["#16161a", "#2a2a30", "#e8e3da"], ["#141417", "#2f2f35", "#9fb4c8"], ["#18181b", "#36363c", "#d9d4cb"],
+  ["#121215", "#2b2b31", "#7fa7c4"], ["#1a1a1d", "#38383e", "#f2efe9"],
 ];
 export function buildingArt(seed = 0, w = 640, h = 420) {
   const [bg, mid, accent] = PALETTES[Math.abs(seed) % PALETTES.length];

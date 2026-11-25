@@ -60,8 +60,8 @@ export default function Agenda() {
               const isHoje = d === isoDate(new Date());
               return (
                 <section key={d}>
-                  <h2 className={clsx("mb-2 flex items-center gap-2 text-sm font-semibold", isHoje && "text-gold-soft")}>
-                    {dt.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long" }).replace(/^\w/, (c) => c.toUpperCase())}{isHoje && <Badge tone="gold">Hoje</Badge>}
+                  <h2 className={clsx("mb-2 flex items-center gap-2 text-sm font-semibold", isHoje && "text-pearl-soft")}>
+                    {dt.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long" }).replace(/^\w/, (c) => c.toUpperCase())}{isHoje && <Badge tone="pearl">Hoje</Badge>}
                   </h2>
                   <ul className="space-y-2">
                     {list.map((c) => (

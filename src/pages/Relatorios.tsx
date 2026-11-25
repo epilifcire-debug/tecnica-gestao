@@ -95,7 +95,7 @@ function RelFinanceiro() {
               ))}
             </ul>
             <div className="mt-5 flex flex-wrap justify-end gap-6 border-t border-line/60 pt-4 text-sm">
-              <span>Receitas <strong className="text-ok">{money(tot.r)}</strong></span><span>Despesas <strong className="text-red-400">{money(tot.d)}</strong></span><span>Saldo <strong className="text-gold-soft">{money(tot.r - tot.d)}</strong></span>
+              <span>Receitas <strong className="text-ok">{money(tot.r)}</strong></span><span>Despesas <strong className="text-red-400">{money(tot.d)}</strong></span><span>Saldo <strong className="text-pearl-soft">{money(tot.r - tot.d)}</strong></span>
             </div>
           </>
         )}
@@ -118,7 +118,7 @@ function RelReceber() {
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {[["Vencido", faixas.vencido, "text-red-400"], ["Até 30 dias", faixas.d30, "text-gold-soft"], ["31 a 60 dias", faixas.d60, "text-blue-300"], ["Acima de 60 dias", faixas.mais, "text-ink"]].map(([k, v, c]) => (
+        {[["Vencido", faixas.vencido, "text-red-400"], ["Até 30 dias", faixas.d30, "text-pearl-soft"], ["31 a 60 dias", faixas.d60, "text-blue-300"], ["Acima de 60 dias", faixas.mais, "text-ink"]].map(([k, v, c]) => (
           <div key={k as string} className="card p-4"><p className="text-[12.5px] text-muted">{k}</p><p className={`text-lg font-bold tabular-nums ${c}`}>{money(v as number)}</p></div>
         ))}
       </div>

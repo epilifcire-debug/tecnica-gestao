@@ -69,7 +69,7 @@ export function CronogramaTab({ obra }: { obra: Obra }) {
                     <p className="text-[12px] text-muted">{date(e.inicio_previsto)} → {date(e.fim_previsto)}</p>
                   </button>
                   <div className="flex items-center gap-3">
-                    <Progress value={v} tone={v >= 100 ? "ok" : atraso ? "bad" : "gold"} className="h-2" />
+                    <Progress value={v} tone={v >= 100 ? "ok" : atraso ? "bad" : "pearl"} className="h-2" />
                     <span className="w-11 text-right text-sm font-semibold tabular-nums">{v}%</span>
                   </div>
                   <div className="flex items-center gap-2">

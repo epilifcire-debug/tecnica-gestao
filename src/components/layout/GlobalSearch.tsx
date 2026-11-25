@@ -35,7 +35,7 @@ export function GlobalSearch({ open, onClose }: { open: boolean; onClose: () => 
                   <li key={r.tipo + r.id}>
                     <button className="flex w-full items-center gap-3 rounded-lg px-2 py-3 text-left hover:bg-surface-2"
                       onClick={() => { onClose(); nav(ROUTE[r.tipo as keyof typeof ROUTE](r.id)); }}>
-                      <I className="h-4 w-4 shrink-0 text-gold" />
+                      <I className="h-4 w-4 shrink-0 text-pearl" />
                       <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{r.titulo}</span><span className="block truncate text-xs text-muted">{r.subtitulo}</span></span>
                       <span className="text-[11px] text-muted">{LABEL[r.tipo as keyof typeof LABEL]}</span>
                     </button>

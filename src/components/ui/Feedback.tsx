@@ -5,7 +5,7 @@ import { Logo } from "./Logo";
 const TONE: Record<Tone, string> = {
   ok: "bg-ok/12 text-ok border-ok/25", bad: "bg-bad/12 text-red-300 border-bad/30", warn: "bg-warn/12 text-orange-300 border-warn/30",
   info: "bg-info/12 text-blue-300 border-info/30", violet: "bg-violet/12 text-violet-300 border-violet/30",
-  gold: "bg-gold/12 text-gold-soft border-gold/30", muted: "bg-surface-2 text-muted border-line",
+  pearl: "bg-pearl/12 text-pearl-soft border-pearl/30", muted: "bg-surface-2 text-muted border-line",
 };
 export function Badge({ tone = "muted", children, className }: { tone?: Tone; children: React.ReactNode; className?: string }) {
   return <span className={clsx("inline-flex h-6 items-center gap-1 whitespace-nowrap rounded-md border px-2 text-[12px] font-medium", TONE[tone], className)}>{children}</span>;
@@ -15,9 +15,9 @@ export function StatusBadge<K extends string>({ map, value }: { map: Record<K, {
   return <Badge tone={map[value].tone}>{map[value].label}</Badge>;
 }
 
-export function Progress({ value, className, tone = "gold", label }: { value: number; className?: string; tone?: "gold" | "ok" | "info" | "bad"; label?: string }) {
+export function Progress({ value, className, tone = "pearl", label }: { value: number; className?: string; tone?: "pearl" | "ok" | "info" | "bad"; label?: string }) {
   const v = Math.max(0, Math.min(100, Number(value) || 0));
-  const bar = { gold: "from-gold to-gold-soft", ok: "from-ok/80 to-ok", info: "from-info/80 to-info", bad: "from-bad/80 to-bad" }[tone];
+  const bar = { pearl: "from-pearl to-pearl-soft", ok: "from-ok/80 to-ok", info: "from-info/80 to-info", bad: "from-bad/80 to-bad" }[tone];
   return (
     <div className={clsx("h-1.5 w-full overflow-hidden rounded-full bg-line/70", className)} role="progressbar" aria-valuenow={Math.round(v)} aria-valuemin={0} aria-valuemax={100} aria-label={label ?? "Progresso"}>
       <div className={clsx("h-full rounded-full bg-gradient-to-r transition-[width] duration-700", bar)} style={{ width: `${v}%` }} />
@@ -30,7 +30,7 @@ export function Skeleton({ className }: { className?: string }) {
 }
 
 export function Spinner({ className }: { className?: string }) {
-  return <span className={clsx("inline-block h-5 w-5 animate-spin rounded-full border-2 border-gold/30 border-t-gold", className)} aria-hidden />;
+  return <span className={clsx("inline-block h-5 w-5 animate-spin rounded-full border-2 border-pearl/30 border-t-pearl", className)} aria-hidden />;
 }
 
 export function FullScreenLoader({ label = "Carregando…" }: { label?: string }) {

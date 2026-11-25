@@ -90,7 +90,7 @@ export default function ObraDetalhe() {
 }
 
 function Info({ icon, k, v }: { icon: React.ReactNode; k: string; v: React.ReactNode }) {
-  return <div className="flex gap-3"><span className="mt-0.5 text-gold">{icon}</span><div><p className="text-[12px] text-muted">{k}</p><p className="text-[14.5px]">{v || "—"}</p></div></div>;
+  return <div className="flex gap-3"><span className="mt-0.5 text-pearl">{icon}</span><div><p className="text-[12px] text-muted">{k}</p><p className="text-[14.5px]">{v || "—"}</p></div></div>;
 }
 
 function Resumo({ o, gestor }: { o: Obra; gestor: boolean }) {
@@ -114,8 +114,8 @@ function Resumo({ o, gestor }: { o: Obra; gestor: boolean }) {
           <ol className="relative space-y-4 border-l border-line pl-5">
             {rdos.data.map((r) => (
               <li key={r.id} className="relative">
-                <span className="absolute -left-[25px] top-1.5 h-2.5 w-2.5 rounded-full bg-gold ring-4 ring-surface" />
-                <Link to={`/obras/${o.id}/rdo/${r.id}`} className="block hover:text-gold-soft">
+                <span className="absolute -left-[25px] top-1.5 h-2.5 w-2.5 rounded-full bg-pearl ring-4 ring-surface" />
+                <Link to={`/obras/${o.id}/rdo/${r.id}`} className="block hover:text-pearl-soft">
                   <p className="text-[12px] text-muted">{date(r.data)}</p>
                   <p className="line-clamp-2 text-sm">{r.servicos_executados || "RDO sem descrição de serviços"}</p>
                 </Link>

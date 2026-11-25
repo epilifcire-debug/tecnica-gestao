@@ -11,7 +11,7 @@ export default {
         line: "rgb(var(--line) / <alpha-value>)",
         ink: "rgb(var(--ink) / <alpha-value>)",
         muted: "rgb(var(--muted) / <alpha-value>)",
-        gold: { DEFAULT: "rgb(var(--gold) / <alpha-value>)", soft: "rgb(var(--gold-soft) / <alpha-value>)" },
+        pearl: { DEFAULT: "rgb(var(--pearl) / <alpha-value>)", soft: "rgb(var(--pearl-soft) / <alpha-value>)" },
         ok: "rgb(var(--ok) / <alpha-value>)",
         bad: "rgb(var(--bad) / <alpha-value>)",
         warn: "rgb(var(--warn) / <alpha-value>)",
@@ -25,7 +25,7 @@ export default {
       borderRadius: { xl: "14px", "2xl": "18px" },
       boxShadow: {
         card: "0 1px 0 rgb(255 255 255 / 0.03) inset, 0 8px 24px -12px rgb(0 0 0 / 0.6)",
-        gold: "0 0 0 1px rgb(var(--gold) / 0.45), 0 6px 24px -10px rgb(var(--gold) / 0.45)",
+        pearl: "0 0 0 1px rgb(var(--pearl) / 0.45), 0 6px 24px -10px rgb(var(--pearl) / 0.45)",
       },
       keyframes: {
         "fade-up": { from: { opacity: "0", transform: "translateY(6px)" }, to: { opacity: "1", transform: "none" } },

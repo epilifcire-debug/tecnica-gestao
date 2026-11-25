@@ -61,7 +61,7 @@ export default function Login() {
             invalid={!!errors.senha} onChange={(e) => { setSenha(e.target.value); setErrors((x) => ({ ...x, senha: undefined })); }} disabled={busy} />
         </Field>
         <div className="flex justify-end">
-          <Link to="/esqueci-senha" className="text-sm text-gold-soft hover:underline">Esqueci minha senha</Link>
+          <Link to="/esqueci-senha" className="text-sm text-pearl-soft hover:underline">Esqueci minha senha</Link>
         </div>
         <Button type="submit" size="lg" className="w-full" loading={busy} icon={!busy && <LogIn className="h-4 w-4" />}>{busy ? "Entrando…" : "Entrar"}</Button>
       </form>

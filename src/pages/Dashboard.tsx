@@ -16,7 +16,7 @@ import { OBRA_STATUS } from "@/data/types";
 import { Card, IconTile, SeeAll, type IconTone } from "@/components/ui/Layout";
 import { Badge, Progress, Skeleton } from "@/components/ui/Feedback";
 import { EmptyState, ErrorState } from "@/components/ui/States";
-import { ColorBends, PRESET_DOURADO } from "@/components/ui/ColorBends";
+import { ColorBends, PRESET_PEROLA } from "@/components/ui/ColorBends";
 import { Input } from "@/components/ui/Form";
 
 type Periodo = "mes" | "mes_ant" | "ano" | "custom";
@@ -47,7 +47,7 @@ export default function Dashboard() {
     <div className="space-y-5 animate-fade-up">
       {/* ---------------------------------------------------------------- HERO */}
       <section className="relative -mx-4 -mt-5 overflow-hidden px-4 pb-2 pt-6 sm:-mx-6 sm:px-6 lg:-mt-7 lg:pt-8">
-        <div className="pointer-events-none absolute inset-0 opacity-70 [mask-image:linear-gradient(to_bottom,black,transparent)]"><ColorBends {...PRESET_DOURADO} intensity={1} /></div>
+        <div className="pointer-events-none absolute inset-0 opacity-70 [mask-image:linear-gradient(to_bottom,black,transparent)]"><ColorBends {...PRESET_PEROLA} intensity={0.75} /></div>
         <div className="relative flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <p className="eyebrow">Dashboard</p>
@@ -60,7 +60,7 @@ export default function Dashboard() {
               <div><p>{longToday()}</p>{cidade && <p className="text-xs text-muted">{cidade}</p>}</div>
             </div>
             <div className="hidden text-[11px] font-medium leading-5 tracking-[0.5em] text-ink/70 xl:block">
-              <p>PLANEJAMENTO</p><p>EXECUÇÃO</p><p>RESULTADOS</p><div className="ml-auto mt-1 h-0.5 w-10 bg-gold" />
+              <p>PLANEJAMENTO</p><p>EXECUÇÃO</p><p>RESULTADOS</p><div className="ml-auto mt-1 h-0.5 w-10 bg-pearl" />
             </div>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default function Dashboard() {
         <>
           {/* --------------------------------------------------------- KPIs principais */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4">
-            <Kpi loading={!d} to="/obras?status=em_andamento" tone="gold" icon={<HardHat className="h-6 w-6" />} label="Obras em andamento"
+            <Kpi loading={!d} to="/obras?status=em_andamento" tone="pearl" icon={<HardHat className="h-6 w-6" />} label="Obras em andamento"
               value={d?.obras_andamento ?? 0} delta={d && variation(d.obras_andamento, d.obras_andamento_ant)} />
             {gestor && <>
               <Kpi loading={!d} to="/financeiro?aba=receitas" tone="ok" icon={<CircleDollarSign className="h-6 w-6" />} label="Recebido no período" value={money(d?.recebido)} delta={d && variation(d.recebido, d.recebido_ant)} />
@@ -128,9 +128,9 @@ export default function Dashboard() {
         <div className="grid gap-4">
           {gestor && <Alertas d={d} />}
           <div className="card relative overflow-hidden p-5">
-            <Quote className="h-6 w-6 text-gold" />
+            <Quote className="h-6 w-6 text-pearl" />
             <p className="mt-2 font-display text-lg leading-snug">Disciplina na gestão.<br />Qualidade na entrega.<br />Confiança em cada projeto.</p>
-            <div className="mt-4 h-0.5 w-12 bg-gold" />
+            <div className="mt-4 h-0.5 w-12 bg-pearl" />
           </div>
         </div>
       </div>
@@ -153,7 +153,7 @@ function Delta({ v, invert }: { v: number | null | undefined; invert?: boolean }
 
 function Kpi({ tone, icon, label, value, delta, to, loading, invert, className }: { tone: IconTone; icon: React.ReactNode; label: string; value: React.ReactNode; delta?: number | null | false; to: string; loading?: boolean; invert?: boolean; className?: string }) {
   return (
-    <Link to={to} className={clsx("card group flex items-center gap-3.5 p-4 transition hover:border-gold/40 sm:p-5", className)}>
+    <Link to={to} className={clsx("card group flex items-center gap-3.5 p-4 transition hover:border-pearl/40 sm:p-5", className)}>
       <IconTile tone={tone} size={48}>{icon}</IconTile>
       <div className="min-w-0 flex-1">
         {loading ? <><Skeleton className="h-7 w-24" /><Skeleton className="mt-2 h-4 w-28" /></> : <>
@@ -162,19 +162,19 @@ function Kpi({ tone, icon, label, value, delta, to, loading, invert, className }
           {delta !== false && <Delta v={delta as number} invert={invert} />}
         </>}
       </div>
-      <ChevronRight className="hidden h-5 w-5 shrink-0 text-muted transition group-hover:translate-x-0.5 group-hover:text-gold sm:block xl:hidden 2xl:block" />
+      <ChevronRight className="hidden h-5 w-5 shrink-0 text-muted transition group-hover:translate-x-0.5 group-hover:text-pearl sm:block xl:hidden 2xl:block" />
     </Link>
   );
 }
 
 function Mini({ tone, icon, n, label, to, link, loading, className }: { tone: IconTone; icon: React.ReactNode; n?: number; label: string; to: string; link: string; loading?: boolean; className?: string }) {
   return (
-    <Link to={to} className={clsx("card group flex items-center gap-3 p-4 transition hover:border-gold/40", className)}>
+    <Link to={to} className={clsx("card group flex items-center gap-3 p-4 transition hover:border-pearl/40", className)}>
       <IconTile tone={tone} size={42}>{icon}</IconTile>
       <div className="min-w-0 flex-1">
         {loading ? <Skeleton className="h-6 w-10" /> : <p className="text-xl font-bold tabular-nums">{n ?? 0}</p>}
         <p className="truncate text-[13px] text-ink/80">{label}</p>
-        <p className="mt-1 hidden items-center gap-1 text-[12px] text-gold-soft sm:flex">{link}<ArrowRight className="h-3 w-3" /></p>
+        <p className="mt-1 hidden items-center gap-1 text-[12px] text-pearl-soft sm:flex">{link}<ArrowRight className="h-3 w-3" /></p>
       </div>
     </Link>
   );
@@ -305,10 +305,10 @@ function ObrasDestaque() {
     <Card title="Obras em destaque" icon={<Building2 className="h-5 w-5" />} action={<SeeAll to="/obras" label="Ver todas" />}>
       {q.isLoading ? <div className="grid gap-3 sm:grid-cols-2">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-28" />)}</div> :
         q.isError ? <ErrorState error={q.error} onRetry={() => q.refetch()} /> :
-          !q.data?.length ? <EmptyState title="Nenhuma obra em andamento." action={<Link to="/obras?novo=1" className="text-sm text-gold-soft">Cadastrar obra</Link>} /> :
+          !q.data?.length ? <EmptyState title="Nenhuma obra em andamento." action={<Link to="/obras?novo=1" className="text-sm text-pearl-soft">Cadastrar obra</Link>} /> :
             <div className="grid gap-3 sm:grid-cols-2">
               {q.data.map((o) => (
-                <Link key={o.id} to={`/obras/${o.id}`} className="group flex overflow-hidden rounded-xl border border-line/70 bg-bg/40 transition hover:border-gold/40">
+                <Link key={o.id} to={`/obras/${o.id}`} className="group flex overflow-hidden rounded-xl border border-line/70 bg-bg/40 transition hover:border-pearl/40">
                   <ObraCover o={o} className="h-auto w-28 shrink-0 transition duration-500 group-hover:scale-105" />
                   <div className="min-w-0 flex-1 p-3">
                     <p className="truncate text-sm font-semibold">{o.nome}</p>
@@ -336,7 +336,7 @@ function Alertas({ d }: { d?: Row }) {
       <ul className="divide-y divide-line/50 px-4 pb-2 pt-1">
         {rows.map((r) => (
           <li key={r.label}>
-            <Link to={r.to} className="flex items-center gap-3 py-2.5 text-sm hover:text-gold-soft">
+            <Link to={r.to} className="flex items-center gap-3 py-2.5 text-sm hover:text-pearl-soft">
               <IconTile tone={r.tone} size={26}>{r.icon}</IconTile>
               {r.n > 0 && <span className="w-5 font-semibold tabular-nums">{r.n}</span>}
               <span className="flex-1">{r.label}</span>

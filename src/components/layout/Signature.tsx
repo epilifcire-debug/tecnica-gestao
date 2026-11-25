@@ -11,7 +11,7 @@ export function Signature({ className = "" }: { className?: string }) {
   const texto = cfg?.assinatura_texto || "by: efcsys";
   const link = cfg?.assinatura_link || "https://efcsys.com";
   return (
-    <a href={link} target="_blank" rel="noreferrer" className={`inline-flex items-center gap-1 text-[11px] tracking-wide text-muted/80 transition hover:text-gold ${className}`}
+    <a href={link} target="_blank" rel="noreferrer" className={`inline-flex items-center gap-1 text-[11px] tracking-wide text-muted/80 transition hover:text-pearl ${className}`}
       title="Desenvolvido por EFCsys • Todos os direitos reservados.">
       {texto.startsWith("by:") ? <><span className="opacity-70">by:</span><span className="font-semibold">{texto.replace(/^by:\s*/, "")}</span></> : texto}
     </a>

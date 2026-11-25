@@ -73,10 +73,10 @@ export default function Perfil() {
         <div className="mb-5 flex items-center gap-4">
           <div className="relative">
             <Avatar nome={profile.nome} url={profile.avatar_url} size={72} />
-            <button onClick={() => file.current?.click()} aria-label="Alterar foto" className="absolute -bottom-1 -right-1 grid h-8 w-8 place-items-center rounded-full bg-gold text-[#1a1406] ring-4 ring-surface"><Camera className="h-4 w-4" /></button>
+            <button onClick={() => file.current?.click()} aria-label="Alterar foto" className="absolute -bottom-1 -right-1 grid h-8 w-8 place-items-center rounded-full bg-pearl text-[#0B0B0D] ring-4 ring-surface"><Camera className="h-4 w-4" /></button>
             <input ref={file} type="file" accept="image/*" className="hidden" onChange={(e) => avatar(e.target.files?.[0])} />
           </div>
-          <div><p className="text-lg font-semibold">{profile.nome}</p><p className="text-sm text-muted">@{profile.username}{profile.email ? ` · ${profile.email}` : ""}</p><Badge tone="gold" className="mt-1.5">{role ? ROLE_LABEL[role] : ""}</Badge></div>
+          <div><p className="text-lg font-semibold">{profile.nome}</p><p className="text-sm text-muted">@{profile.username}{profile.email ? ` · ${profile.email}` : ""}</p><Badge tone="pearl" className="mt-1.5">{role ? ROLE_LABEL[role] : ""}</Badge></div>
         </div>
         <form onSubmit={salvar} noValidate className="grid gap-4 sm:grid-cols-2">
           <Field label="Nome" required error={err.nome} htmlFor="n" className="sm:col-span-2"><Input id="n" value={nome} invalid={!!err.nome} onChange={(e) => setNome(e.target.value)} /></Field>
