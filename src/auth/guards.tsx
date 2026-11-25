@@ -16,8 +16,11 @@ export function RequireAuth() {
 /** Autorização por módulo. Dados protegidos nem são requisitados se não houver permissão. */
 export function RequireModule({ modulo, children }: { modulo: Modulo; children: React.ReactNode }) {
   const { role } = useAuth();
+  // cliente vive só no Portal (inclusive o próprio perfil)
+  if (role === "cliente" && modulo !== "portal") return <Navigate to={modulo === "perfil" ? "/portal/perfil" : "/portal"} replace />;
   if (!can(role, modulo)) {
-    if (role === "cliente" && modulo === "dashboard") return <Navigate to={homeFor(role)} replace />;
+    // cliente nunca vê telas internas: qualquer rota interna leva ao Portal da obra dele
+    if (role === "cliente") return <Navigate to={homeFor(role)} replace />;
     return <NoPermission />;
   }
   return <>{children}</>;

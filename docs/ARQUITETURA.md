@@ -10,6 +10,9 @@
 
 Usuário **inativo** perde acesso no banco na hora (todas as policies negam), é banido no Auth pela Edge Function e é deslogado no app (Realtime + revalidação periódica).
 
+## Acesso do cliente (Portal)
+Na obra, o gestor usa **Acesso do cliente**: cria o login (perfil Cliente) já vinculado ao cadastro do cliente da obra, com usuário + senha provisória (e-mail opcional) e manda os dados por WhatsApp. O cliente cai direto no Portal; qualquer rota interna o devolve ao Portal. O banco só entrega a ele as obras do próprio cadastro (andamento, etapas, RDOs e fotos visíveis, documentos liberados, orçamentos enviados, parcelas e laudos liberados). O gestor bloqueia/reativa o acesso no mesmo lugar.
+
 ## Login
 Usuário entra com **nome de usuário ou e-mail**. `login_email()` (RPC liberada ao anônimo) converte usuário → e-mail de acesso antes do `signInWithPassword`; usuário inexistente cai na mesma mensagem genérica de erro. Quem não tem e-mail recebe no Auth um e-mail técnico `<usuario>@usuarios.tecnica.local` (nunca exibido nem usado para envio), com conta já confirmada e senha definida pelo administrador. Só gestor altera nome de usuário.
 

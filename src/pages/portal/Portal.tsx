@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { lazy, Suspense, useMemo, useState } from "react";
 import { NavLink, Route, Routes, useNavigate, Navigate, useParams, Link } from "react-router-dom";
 import clsx from "clsx";
 import { Bell, Building2, CircleDollarSign, FileText, LogOut, MessageCircle, Phone, Mail, ChevronRight } from "lucide-react";
@@ -19,6 +19,8 @@ import { DemoBar } from "@/components/layout/DemoBar";
 import { FotosTab } from "../obra/FotosTab";
 import { DocsTab, openFile } from "../obra/DocsTab";
 
+const Perfil = lazy(() => import("../Perfil"));
+
 /** Portal do Cliente — somente leitura, dados filtrados pela RLS (cliente_id do perfil). */
 export default function Portal() {
   const { profile, signOut } = useAuth();
@@ -33,7 +35,7 @@ export default function Portal() {
         <div className="mx-auto flex h-16 max-w-3xl items-center gap-3 px-4">
           <Logo variant="inline" />
           <div className="ml-auto flex items-center gap-2">
-            <Avatar nome={profile?.nome} url={profile?.avatar_url} size={34} />
+            <Link to="/portal/perfil" aria-label="Meu perfil"><Avatar nome={profile?.nome} url={profile?.avatar_url} size={34} /></Link>
             <button onClick={sair} className="grid h-10 w-10 place-items-center rounded-xl text-muted hover:bg-surface-2" aria-label="Sair"><LogOut className="h-5 w-5" /></button>
           </div>
         </div>
@@ -45,6 +47,7 @@ export default function Portal() {
           <Route path="documentos" element={<DocsPortal obras={obras.data ?? []} />} />
           <Route path="financeiro" element={<FinPortal />} />
           <Route path="contato" element={<Contato />} />
+          <Route path="perfil" element={<Suspense fallback={<Skeleton className="h-64" />}><Perfil /></Suspense>} />
           <Route path="*" element={<Navigate to="/portal" replace />} />
         </Routes>
         <div className="mt-10 text-center"><Signature /></div>

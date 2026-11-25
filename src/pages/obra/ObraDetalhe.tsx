@@ -21,6 +21,8 @@ import { FinanceiroObraTab } from "./FinanceiroObraTab";
 import { DocsTab } from "./DocsTab";
 import { EquipeTab } from "./EquipeTab";
 import TarefasObra from "../Tarefas";
+import { AcessoClienteModal } from "./AcessoClienteModal";
+import { KeyRound } from "lucide-react";
 
 type T = "resumo" | "cronograma" | "rdo" | "fotos" | "tarefas" | "financeiro" | "docs" | "equipe";
 
@@ -34,6 +36,7 @@ export default function ObraDetalhe() {
   const setTab = (t: T) => { params.set("aba", t); setParams(params, { replace: true }); };
   const q = useGet<Obra>("obras", id, ["cliente", "responsavel"]);
   const [edit, setEdit] = useState<Row | null>(null);
+  const [acesso, setAcesso] = useState(false);
 
   if (q.isLoading) return <div className="space-y-4"><Skeleton className="h-48" /><Skeleton className="h-10 w-2/3" /><Skeleton className="h-64" /></div>;
   if (q.isError) return <ErrorState error={q.error} onRetry={() => q.refetch()} />;
@@ -64,6 +67,7 @@ export default function ObraDetalhe() {
             </div>
             <div className="flex gap-2">
               <Link to={`/obras/${o.id}/rdo/novo`}><Button variant="secondary" size="sm" icon={<ClipboardList className="h-4 w-4" />}>Novo RDO</Button></Link>
+              {gestor && o.cliente_id && <Button variant="secondary" size="sm" icon={<KeyRound className="h-4 w-4" />} onClick={() => setAcesso(true)}>Acesso do cliente</Button>}
               {gestor && <Button variant="secondary" size="sm" icon={<Pencil className="h-4 w-4" />} onClick={() => setEdit(o)}>Editar</Button>}
             </div>
           </div>
@@ -85,6 +89,7 @@ export default function ObraDetalhe() {
       {tab === "equipe" && <EquipeTab obra={o} />}
 
       <CrudForm c={{ table: "obras", singular: "Obra", title: "Obras", columns: [], fields: OBRA_FIELDS }} row={edit} onClose={() => setEdit(null)} />
+      {gestor && o.cliente_id && <AcessoClienteModal open={acesso} onClose={() => setAcesso(false)} obra={o} />}
     </div>
   );
 }
