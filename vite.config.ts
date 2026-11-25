@@ -2,9 +2,11 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import path from "node:path";
+import pkg from "./package.json";
 
 export default defineConfig(({ mode }) => ({
   base: process.env.VITE_BASE ?? "/",
+  define: { __APP_VERSION__: JSON.stringify(pkg.version) },
   resolve: { alias: { "@": path.resolve(__dirname, "src") } },
   plugins: [
     react(),

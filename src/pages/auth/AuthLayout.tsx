@@ -26,7 +26,7 @@ export function AuthLayout({ children }: { children: ReactNode }) {
           <div className="mb-8 flex justify-center lg:hidden"><Logo variant="stack" size="md" /></div>
           {children}
         </div>
-        <div className="relative mt-10 text-center text-[11px] text-muted"><Signature /></div>
+        <div className="relative mt-10 flex flex-col items-center gap-1 text-center text-[11px] text-muted"><Signature /><span className="tabular-nums opacity-70">v{__APP_VERSION__}</span></div>
       </main>
     </div>
   );
