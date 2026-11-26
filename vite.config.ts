@@ -41,6 +41,7 @@ export default defineConfig(({ mode }) => ({
       workbox: {
         // Só assets versionados vão para o cache. Dados (Supabase) sempre da rede.
         globPatterns: ["**/*.{js,css,html,woff2,png,svg}"],
+        globIgnores: ["config.js"], // config de runtime nunca vai para o cache
         navigateFallback: "/index.html",
         navigateFallbackDenylist: [/^\/auth\//, /^\/rest\//, /^\/storage\//],
         cleanupOutdatedCaches: true,

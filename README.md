@@ -30,7 +30,7 @@ docs/           arquitetura, permissões, rotas
 6. Edge Function: `supabase functions deploy admin-users` e defina os secrets:
    `supabase secrets set APP_URL=https://SEU-DOMINIO ALLOWED_ORIGINS=https://SEU-DOMINIO`
    (`SUPABASE_URL`, `SUPABASE_ANON_KEY` e `SUPABASE_SERVICE_ROLE_KEY` já existem nas functions.)
-7. Copie `.env.example` → `.env` com a URL e a **anon key** (nunca a service role).
+7. Desenvolvimento local: copie `.env.example` → `.env` com a URL e a **anon key** (nunca a service role).
 
 ## Rodar / publicar
 ```bash
@@ -39,10 +39,13 @@ npm run dev          # desenvolvimento
 npm run build        # produção (dist/) — PWA com service worker
 npm run build:demo   # preview com dados fictícios (dist-demo/), sem Supabase
 ```
-Shard Cloud / Docker:
+Shard Cloud / Docker (plano: 1 GB):
+- Variáveis da Aplicação: arquivo **`.env.shardcloud`** (`SUPABASE_URL`, `SUPABASE_ANON_KEY`, `PORT`). São lidas na **inicialização** do container: trocar uma variável exige só reiniciar, não rebuild.
+- Secrets da Edge Function: arquivo **`.env.supabase-functions`** (`APP_URL`, `ALLOWED_ORIGINS`).
+- Health check: `GET /health` → `ok`.
 ```bash
-docker build --build-arg VITE_SUPABASE_URL=... --build-arg VITE_SUPABASE_ANON_KEY=... -t tecnica-gestao .
-docker run -p 8080:80 tecnica-gestao
+docker build -t tecnica-gestao .
+docker run -p 8080:80 -e SUPABASE_URL=... -e SUPABASE_ANON_KEY=... tecnica-gestao
 ```
 
 ## Testar as permissões do banco (opcional)
