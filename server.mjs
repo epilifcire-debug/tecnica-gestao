@@ -8,7 +8,9 @@ import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(fileURLToPath(new URL(".", import.meta.url)), "dist");
-const PORT = Number(process.env.PORT) || 80;
+// Shard Cloud exige porta 80 em 0.0.0.0 (APP_PORT só para testes locais)
+const PORT = Number(process.env.APP_PORT) || 80;
+const HOST = "0.0.0.0";
 const TYPES = {
   ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
   ".json": "application/json", ".webmanifest": "application/manifest+json", ".svg": "image/svg+xml",
@@ -48,4 +50,4 @@ createServer(async (req, res) => {
     console.error("[tecnica] erro:", e);
     if (!res.headersSent) res.writeHead(500).end("Erro interno");
   }
-}).listen(PORT, () => console.log(`[tecnica] app no ar na porta ${PORT}`));
+}).listen(PORT, HOST, () => console.log(`[tecnica] app no ar em http://${HOST}:${PORT}`));
