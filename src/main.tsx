@@ -24,6 +24,13 @@ const qc = new QueryClient({
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 if (!CONFIG_OK) {
   root.render(<ConfigMissing />);
+  // Nesta tela o aviso de "nova versão" não aparece: se houver versão nova, atualiza sozinho
+  // (evita ficar preso numa versão antiga em cache depois que as variáveis forem corrigidas).
+  if (!IS_DEMO && "serviceWorker" in navigator) {
+    import("virtual:pwa-register").then(({ registerSW }) => {
+      const update = registerSW({ immediate: true, onNeedRefresh: () => update(true) });
+    }).catch(() => {});
+  }
 } else {
   loadApi().then(() => {
     root.render(
