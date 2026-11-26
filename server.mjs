@@ -21,7 +21,10 @@ const SEC = { "X-Content-Type-Options": "nosniff", "Referrer-Policy": "strict-or
 
 // limpa espaços, aspas e barra final que costumam vir ao colar no painel
 const clean = (v) => String(v ?? "").trim().replace(/^["']|["']$/g, "").trim();
-const url = clean(process.env.SUPABASE_URL).replace(/\/+(rest\/v1)?\/?$/, "");
+const rawUrl = clean(process.env.SUPABASE_URL);
+// aproveita o primeiro endereço válido (corrige URL colada duas vezes, com /rest/v1, barra final etc.)
+const url = (rawUrl.match(/https:\/\/[a-z0-9-]+\.supabase\.(?:co|in)/i)?.[0] ?? rawUrl.replace(/\/+(rest\/v1)?\/?$/, "")).toLowerCase();
+if (url && url !== rawUrl) console.warn(`[tecnica] SUPABASE_URL ajustada de "${rawUrl}" para "${url}". Corrija no painel quando puder.`);
 const key = clean(process.env.SUPABASE_ANON_KEY);
 if (!url || !key) console.warn("[tecnica] AVISO: defina SUPABASE_URL e SUPABASE_ANON_KEY nas variáveis da Aplicação.");
 else if (!/^https:\/\/[a-z0-9-]+\.supabase\.(co|in)$/i.test(url) || /SEU-PROJETO/i.test(url))
