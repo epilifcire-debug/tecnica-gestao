@@ -39,7 +39,9 @@ npm run dev          # desenvolvimento
 npm run build        # produção (dist/) — PWA com service worker
 npm run build:demo   # preview com dados fictícios (dist-demo/), sem Supabase
 ```
-Shard Cloud / Docker (plano: 1 GB):
+Shard Cloud (plano: 1 GB) — o arquivo **`.shardcloud`** já define tudo: Node, 1024 MB, subdomínio `tecnicagestao` e o comando de início (`npm ci` → `npm run build` → `node server.mjs`). O `server.mjs` entrega o app, gera o `/config.js` e responde `/health`.
+
+Alternativa com Docker (Dockerfile + Nginx):
 - Variáveis da Aplicação: arquivo **`.env.shardcloud`** (`SUPABASE_URL`, `SUPABASE_ANON_KEY`, `PORT`). São lidas na **inicialização** do container: trocar uma variável exige só reiniciar, não rebuild.
 - Secrets da Edge Function: arquivo **`.env.supabase-functions`** (`APP_URL`, `ALLOWED_ORIGINS`).
 - Health check: `GET /health` → `ok`.

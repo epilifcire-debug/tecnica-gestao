@@ -1,0 +1,7 @@
+DISPLAY_NAME=Tecnica Gestao
+DESCRIPTION=Tecnica Engenharia - Gestao de Obras (PWA)
+LANGUAGE=node
+VERSION=recommended
+MEMORY=1024
+SUBDOMAIN=tecnicagestao
+CUSTOM_COMMAND=npm ci --include=dev --no-audit --no-fund && npm run build && node server.mjs
