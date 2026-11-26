@@ -48,7 +48,7 @@ createServer(async (req, res) => {
     const path = decodeURIComponent(new URL(req.url ?? "/", "http://x").pathname);
     if (req.method !== "GET" && req.method !== "HEAD") { res.writeHead(405).end(); return; }
     if (path === "/health") { res.writeHead(200, { "Content-Type": "text/plain" }).end("ok\n"); return; }
-    if (path === "/config.js") { res.writeHead(200, { "Content-Type": TYPES[".js"], "Cache-Control": "no-store", ...SEC }).end(CONFIG); return; }
+    if (path === "/config.js") { res.writeHead(200, { "Content-Type": TYPES[".js"], "Cache-Control": "no-store, max-age=0", "CDN-Cache-Control": "no-store", "Cloudflare-CDN-Cache-Control": "no-store", ...SEC }).end(CONFIG); return; }
     const file = normalize(join(ROOT, path));
     if (!file.startsWith(ROOT)) { res.writeHead(403).end(); return; }
     const s = await stat(file).catch(() => null);

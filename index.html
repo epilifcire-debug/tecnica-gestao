@@ -21,7 +21,8 @@
   <body class="bg-bg text-ink antialiased">
     <div id="root"></div>
     <noscript>Ative o JavaScript para usar o sistema Técnica Engenharia.</noscript>
-    <script src="%BASE_URL%config.js"></script>
+    <!-- config de runtime: query única evita versão em cache (navegador/CDN) -->
+    <script>document.write('<script src="%BASE_URL%config.js?t=' + Date.now() + '"><\/script>');</script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
