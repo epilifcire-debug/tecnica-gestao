@@ -19,9 +19,15 @@ const TYPES = {
 };
 const SEC = { "X-Content-Type-Options": "nosniff", "Referrer-Policy": "strict-origin-when-cross-origin", "X-Frame-Options": "SAMEORIGIN" };
 
-const url = process.env.SUPABASE_URL || "";
-const key = process.env.SUPABASE_ANON_KEY || "";
+// limpa espaços, aspas e barra final que costumam vir ao colar no painel
+const clean = (v) => String(v ?? "").trim().replace(/^["']|["']$/g, "").trim();
+const url = clean(process.env.SUPABASE_URL).replace(/\/+(rest\/v1)?\/?$/, "");
+const key = clean(process.env.SUPABASE_ANON_KEY);
 if (!url || !key) console.warn("[tecnica] AVISO: defina SUPABASE_URL e SUPABASE_ANON_KEY nas variáveis da Aplicação.");
+else if (!/^https:\/\/[a-z0-9-]+\.supabase\.(co|in)$/i.test(url) || /SEU-PROJETO/i.test(url))
+  console.warn(`[tecnica] AVISO: SUPABASE_URL parece inválida: "${url}" (esperado https://xxxx.supabase.co).`);
+else console.log(`[tecnica] Supabase: ${url} (chave anon com ${key.length} caracteres)`);
+if (/COLE_AQUI/i.test(key)) console.warn("[tecnica] AVISO: SUPABASE_ANON_KEY ainda é o texto de exemplo.");
 const CONFIG = `window.__ENV__ = ${JSON.stringify({ SUPABASE_URL: url, SUPABASE_ANON_KEY: key })};\n`;
 
 const cacheFor = (p) =>
